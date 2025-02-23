@@ -1,0 +1,63 @@
+package org.mertguler.cinemium.service.cinema;
+
+import org.mertguler.cinemium.exception.model.ResourceAlreadyExistException;
+import org.mertguler.cinemium.exception.model.ResourceNotFoundException;
+import org.mertguler.cinemium.model.building.Cinema;
+import org.mertguler.cinemium.payload.dto.CinemaDTO;
+import org.mertguler.cinemium.payload.response.CinemaResponse;
+import org.mertguler.cinemium.repository.CinemaRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class CinemaServiceImpl implements CinemaService{
+
+    @Autowired
+    private CinemaRepository cinemaRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Override
+    public CinemaResponse getAllCinemas() {
+        List<Cinema> cinemas = cinemaRepository.findAll();
+
+        List<CinemaDTO> cinemaDTOS = cinemas.stream()
+                .map(cinema -> modelMapper.map(cinema, CinemaDTO.class))
+                .toList();
+
+        CinemaResponse cinemaResponse = new CinemaResponse();
+        cinemaResponse.setContent(cinemaDTOS);
+        return cinemaResponse;
+    }
+
+    @Override
+    public CinemaDTO createCinema(CinemaDTO cinemaDTO){
+        Cinema cinema = modelMapper.map(cinemaDTO, Cinema.class);
+        String code = cinema.getCode();
+        Cinema cinemaFromDb = cinemaRepository.findCinemaByCode(code);
+
+        if (cinemaFromDb != null) {
+            throw new ResourceAlreadyExistException("Cinema", "code", code);
+        }
+
+        Cinema savedCinema = cinemaRepository.save(cinema);
+        return modelMapper.map(savedCinema, CinemaDTO.class);
+    }
+
+    @Override
+    public CinemaDTO updateCinema(CinemaDTO cinemaDTO, Long cinemaId) {
+        Cinema savedCinema = cinemaRepository.findById(cinemaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
+
+        Cinema newCinema = modelMapper.map(cinemaDTO, Cinema.class);
+        newCinema.setCinemaId(cinemaId);
+        savedCinema = cinemaRepository.save(newCinema);
+        return modelMapper.map(savedCinema, CinemaDTO.class);
+    }
+
+
+}
