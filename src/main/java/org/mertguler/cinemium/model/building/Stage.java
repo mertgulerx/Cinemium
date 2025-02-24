@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.mertguler.cinemium.model.building.seat.Seat;
+import org.mertguler.cinemium.model.session.Session;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,4 +32,7 @@ public class Stage {
     @ToString.Exclude
     @OneToMany(mappedBy = "stage",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<>();
+
+    @OneToMany(mappedBy = "stage",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<Session> sessions = new ArrayList<>();
 }
