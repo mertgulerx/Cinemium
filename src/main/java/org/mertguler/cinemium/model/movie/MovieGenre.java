@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.mertguler.cinemium.validator.EnumValidator;
 
 @Entity
 @Data
@@ -16,7 +17,7 @@ public class MovieGenre {
 //    private Long genreId;
 
     @Id
-    @Enumerated(EnumType.STRING)
+    @EnumValidator(enumClass = Genre.class)
     @Column(name = "genre_name")
-    private Genre name;
+    private String genreName;
 }
