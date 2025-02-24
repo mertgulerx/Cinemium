@@ -1,7 +1,6 @@
 package org.mertguler.cinemium.service.cinema;
 
 import jakarta.validation.Valid;
-import org.mertguler.cinemium.exception.model.ResourceAlreadyExistException;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
 
@@ -11,4 +10,6 @@ public interface CinemaService {
     CinemaDTO createCinema(@Valid CinemaDTO cinemaDTO);
 
     CinemaDTO updateCinema(@Valid CinemaDTO cinemaDTO, Long cinemaId);
+
+    CinemaDTO deleteCinema(Long cinemaId);
 }

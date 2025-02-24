@@ -37,11 +37,11 @@ public class CinemaServiceImpl implements CinemaService{
     @Override
     public CinemaDTO createCinema(CinemaDTO cinemaDTO){
         Cinema cinema = modelMapper.map(cinemaDTO, Cinema.class);
-        String code = cinema.getCode();
-        Cinema cinemaFromDb = cinemaRepository.findCinemaByCode(code);
+        Long cinemaId = cinema.getCinemaId();
+        Cinema cinemaFromDb = cinemaRepository.findCinemaByCinemaId(cinemaId);
 
         if (cinemaFromDb != null) {
-            throw new ResourceAlreadyExistException("Cinema", "code", code);
+            throw new ResourceAlreadyExistException("Cinema", "cinemaId", cinemaId);
         }
 
         Cinema savedCinema = cinemaRepository.save(cinema);
@@ -57,6 +57,15 @@ public class CinemaServiceImpl implements CinemaService{
         newCinema.setCinemaId(cinemaId);
         savedCinema = cinemaRepository.save(newCinema);
         return modelMapper.map(savedCinema, CinemaDTO.class);
+    }
+
+    @Override
+    public CinemaDTO deleteCinema(Long cinemaId) {
+        Cinema cinemaFromDb = cinemaRepository.findById(cinemaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
+
+        cinemaRepository.delete(cinemaFromDb);
+        return modelMapper.map(cinemaFromDb, CinemaDTO.class);
     }
 
 

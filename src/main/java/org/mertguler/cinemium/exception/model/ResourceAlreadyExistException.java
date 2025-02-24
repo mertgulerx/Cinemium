@@ -6,6 +6,9 @@ public class ResourceAlreadyExistException extends RuntimeException {
   String fieldName;
   Long fieldId;
 
+  Integer rowIndex;
+  Integer columnIndex;
+
   public ResourceAlreadyExistException() {
   }
 
@@ -21,5 +24,18 @@ public class ResourceAlreadyExistException extends RuntimeException {
     this.resourceName = resourceName;
     this.field = field;
     this.fieldId = fieldId;
+  }
+
+  /**
+   * Only for Seats
+   * @param resourceName
+   * @param rowIndex
+   * @param columnIndex
+   */
+  public ResourceAlreadyExistException(String resourceName, Integer rowIndex, Integer columnIndex) {
+    super(String.format("%s already exist with Row Index: %d and Column Index: %d", resourceName, rowIndex, columnIndex));
+    this.resourceName = resourceName;
+    this.rowIndex = rowIndex;
+    this.columnIndex = columnIndex;
   }
 }

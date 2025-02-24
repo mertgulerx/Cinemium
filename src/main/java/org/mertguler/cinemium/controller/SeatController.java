@@ -1,0 +1,47 @@
+package org.mertguler.cinemium.controller;
+
+import jakarta.validation.Valid;
+import org.mertguler.cinemium.payload.dto.SeatDTO;
+import org.mertguler.cinemium.payload.dto.StageDTO;
+import org.mertguler.cinemium.payload.response.SeatResponse;
+import org.mertguler.cinemium.payload.response.StageResponse;
+import org.mertguler.cinemium.service.seat.SeatService;
+import org.mertguler.cinemium.service.stage.StageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class SeatController {
+    @Autowired
+    private SeatService seatService;
+
+    @GetMapping("/public/cinemas/stages/{stageId}/seats")
+    public ResponseEntity<SeatResponse> getSeats(@PathVariable Long stageId){
+        SeatResponse seatResponse = seatService.getSeats(stageId);
+        return new ResponseEntity<>(seatResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("/public/cinemas/stages/{stageId}/seats")
+    public ResponseEntity<SeatDTO> createSeat(@Valid @RequestBody SeatDTO seatDTO,
+                                               @PathVariable Long stageId){
+        SeatDTO savedSeatDTO = seatService.createSeat(seatDTO, stageId);
+        return new ResponseEntity<>(savedSeatDTO, HttpStatus.OK);
+    }
+
+    @PutMapping("/public/cinemas/stages/seats/{seatId}")
+    public ResponseEntity<SeatDTO> updateSeat(@Valid @RequestBody SeatDTO seatDTO,
+                                                @PathVariable Long seatId){
+        SeatDTO savedSeatDTO = seatService.updateSeat(seatDTO, seatId);
+        return new ResponseEntity<>(savedSeatDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/public/cinemas/stages/seats/{seatId}")
+    public ResponseEntity<SeatDTO> deleteSeat(@PathVariable Long seatId){
+        SeatDTO deletedSeatDTO = seatService.deleteSeat(seatId);
+        return new ResponseEntity<>(deletedSeatDTO, HttpStatus.OK);
+    }
+
+}

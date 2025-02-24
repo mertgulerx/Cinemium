@@ -31,8 +31,6 @@ public class Cinema {
     private String code;
 
     @ToString.Exclude
-    @OneToMany
-    @JoinTable(name = "cinema_stages", joinColumns = @JoinColumn(name = "cinema_id"),
-            inverseJoinColumns = @JoinColumn(name = "stage_id"))
+    @OneToMany(mappedBy = "cinema",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<Stage> stages = new ArrayList<>();
 }

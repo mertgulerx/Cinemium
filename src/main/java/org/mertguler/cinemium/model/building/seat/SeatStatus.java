@@ -1,4 +1,4 @@
-package org.mertguler.cinemium.model.seat;
+package org.mertguler.cinemium.model.building.seat;
 
 public enum SeatStatus {
     AVAILABLE,
