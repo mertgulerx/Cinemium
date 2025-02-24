@@ -17,7 +17,7 @@ public class CinemaController {
     private CinemaService cinemaService;
 
     @GetMapping("/public/cinemas")
-    public ResponseEntity<CinemaResponse> getAllCategories(){
+    public ResponseEntity<CinemaResponse> getAllCinemas(){
         CinemaResponse cinemaResponse = cinemaService.getAllCinemas();
         return new ResponseEntity<>(cinemaResponse, HttpStatus.OK);
     }
@@ -29,9 +29,15 @@ public class CinemaController {
     }
 
     @PutMapping("/public/cinemas/{cinemaId}")
-    public ResponseEntity<CinemaDTO> updateCategory(@Valid @RequestBody CinemaDTO cinemaDTO, @PathVariable Long cinemaId){
+    public ResponseEntity<CinemaDTO> updateCinema(@Valid @RequestBody CinemaDTO cinemaDTO, @PathVariable Long cinemaId){
         CinemaDTO savedCinemaDTO = cinemaService.updateCinema(cinemaDTO, cinemaId);
         return new ResponseEntity<>(savedCinemaDTO, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/public/cinemas/{cinemaId}")
+    public ResponseEntity<CinemaDTO> deleteCinema(@PathVariable Long cinemaId){
+        CinemaDTO deletedCinemaDTO = cinemaService.deleteCinema(cinemaId);
+        return new ResponseEntity<>(deletedCinemaDTO, HttpStatus.OK);
     }
 
 
