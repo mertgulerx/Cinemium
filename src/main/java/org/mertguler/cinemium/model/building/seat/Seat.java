@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.building.Stage;
+import org.mertguler.cinemium.model.ticket.Ticket;
 import org.mertguler.cinemium.validator.EnumValidator;
 
 @Entity
