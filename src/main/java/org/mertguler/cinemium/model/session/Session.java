@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.building.Stage;
 import org.mertguler.cinemium.model.movie.Movie;
+import org.mertguler.cinemium.validator.EnumValidator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,9 +24,11 @@ public class Session {
     private Long sessionId;
 
     @ManyToOne
+    @JoinColumn(name = "movie_id")
     private Movie movie;
 
     @ManyToOne
+    @JoinColumn(name = "stage_id")
     private Stage stage;
 
     @Min(0)
@@ -34,11 +37,11 @@ public class Session {
     @Min(0)
     private BigDecimal studentPrice;
 
-    @Enumerated(EnumType.STRING)
-    private LanguageFormat languageFormat;
+    @EnumValidator(enumClass = LanguageFormat.class)
+    private String languageFormat;
 
-    @Enumerated(EnumType.STRING)
-    private MovieDimension movieDimension;
+    @EnumValidator(enumClass = MovieDimension.class)
+    private String movieDimension;
 
     private LocalDateTime startingDate;
 

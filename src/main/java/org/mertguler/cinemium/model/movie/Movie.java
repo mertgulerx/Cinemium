@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.mertguler.cinemium.model.session.Session;
 import org.mertguler.cinemium.validator.EnumValidator;
 
 import java.util.ArrayList;
@@ -50,4 +51,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_name"))
     private List<MovieGenre> genres = new ArrayList<>();
+
+    @OneToMany(mappedBy = "movie",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<Session> sessions = new ArrayList<>();
 }
