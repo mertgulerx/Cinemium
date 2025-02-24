@@ -38,6 +38,13 @@ public class SeatController {
         return new ResponseEntity<>(savedSeatDTO, HttpStatus.OK);
     }
 
+    @PutMapping("/public/cinemas/stages/seats/couple/{firstSeatId}/{secondSeatId}")
+    public ResponseEntity<SeatResponse> makeSeatsCouple(@PathVariable Long firstSeatId,
+                                                   @PathVariable Long secondSeatId){
+        SeatResponse seatResponse = seatService.makeSeatsCouple(firstSeatId, secondSeatId);
+        return new ResponseEntity<>(seatResponse, HttpStatus.OK);
+    }
+
     @DeleteMapping("/public/cinemas/stages/seats/{seatId}")
     public ResponseEntity<SeatDTO> deleteSeat(@PathVariable Long seatId){
         SeatDTO deletedSeatDTO = seatService.deleteSeat(seatId);

@@ -12,4 +12,6 @@ public interface SeatService {
     SeatDTO updateSeat(@Valid SeatDTO seatDTO, Long seatId);
 
     SeatDTO deleteSeat(Long seatId);
+
+    SeatResponse makeSeatsCouple(Long firstSeatId, Long secondSeatId);
 }

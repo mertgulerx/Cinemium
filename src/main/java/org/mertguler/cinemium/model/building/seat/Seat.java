@@ -39,5 +39,7 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name = "stage_id")
     private Stage stage;
+    
+    private Long coupleId;
 
 }

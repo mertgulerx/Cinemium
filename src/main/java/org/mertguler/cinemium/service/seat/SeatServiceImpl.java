@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,17 +46,18 @@ public class SeatServiceImpl implements SeatService{
 
     @Override
     public SeatDTO createSeat(SeatDTO seatDTO, Long stageId) {
-        Seat seat = modelMapper.map(seatDTO, Seat.class);
         Stage stage = stageRepository.findById(stageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
+
+        Seat seat = modelMapper.map(seatDTO, Seat.class);
 
         Integer rowIndex = seat.getRowIndex();
         Integer columnIndex = seat.getColumnIndex();
         Seat seatFromDb = seatRepository.findSeatByStageIdAndPosition(stageId ,rowIndex,columnIndex );
 
-        // Daha iyi bir exception kullanilabilir
         if (seatFromDb != null) {
             throw new ResourceAlreadyExistException("Seat", rowIndex, columnIndex);
+            // Daha iyi bir exception kullanilabilir
         }
 
         seat.setStage(stage);
@@ -83,6 +85,31 @@ public class SeatServiceImpl implements SeatService{
 
         seatRepository.delete(seatFromDb);
         return modelMapper.map(seatFromDb, SeatDTO.class);
+    }
+
+    @Override
+    public SeatResponse makeSeatsCouple(Long firstSeatId, Long secondSeatId) {
+        Seat firstSeat = seatRepository.findById(firstSeatId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seat", "seatId", firstSeatId));
+
+        Seat secondSeat = seatRepository.findById(secondSeatId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seat", "seatId", secondSeatId));
+
+        firstSeat.setCoupleId(secondSeatId);
+        firstSeat.setType("COUPLE");
+        secondSeat.setCoupleId(firstSeatId);
+        secondSeat.setType("COUPLE");
+
+        Seat savedFirstSeat = seatRepository.save(firstSeat);
+        Seat savedSecondSeat = seatRepository.save(secondSeat);
+
+        SeatDTO savedFirstSeatDTO = modelMapper.map(savedFirstSeat, SeatDTO.class);
+        SeatDTO savedSecondSeatDTO = modelMapper.map(savedSecondSeat, SeatDTO.class);
+        List<SeatDTO> seatDTOS = new ArrayList<>();
+        seatDTOS.add(savedFirstSeatDTO);
+        seatDTOS.add(savedSecondSeatDTO);
+
+        return new SeatResponse(seatDTOS);
     }
 
 
