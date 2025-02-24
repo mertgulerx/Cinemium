@@ -53,9 +53,9 @@ public class CinemaServiceImpl implements CinemaService{
         Cinema savedCinema = cinemaRepository.findById(cinemaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
 
-        Cinema newCinema = modelMapper.map(cinemaDTO, Cinema.class);
-        newCinema.setCinemaId(cinemaId);
-        savedCinema = cinemaRepository.save(newCinema);
+        Cinema cinema = modelMapper.map(cinemaDTO, Cinema.class);
+        cinema.setCinemaId(cinemaId);
+        savedCinema = cinemaRepository.save(cinema);
         return modelMapper.map(savedCinema, CinemaDTO.class);
     }
 
