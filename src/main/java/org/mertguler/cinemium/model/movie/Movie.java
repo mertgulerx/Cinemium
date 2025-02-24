@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.mertguler.cinemium.validator.EnumValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,14 +42,12 @@ public class Movie {
 
     private Float rtScore;
 
-    @Enumerated(EnumType.STRING)
-    private ReleaseStatus releaseStatus;
+    @EnumValidator(enumClass = ReleaseStatus.class)
+    private String releaseStatus;
 
     @ManyToMany
     @JoinTable(name = "movie_genres",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_name"))
     private List<MovieGenre> genres = new ArrayList<>();
-
-
 }
