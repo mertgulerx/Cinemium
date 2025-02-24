@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mertguler.cinemium.model.seat.Seat;
+import lombok.ToString;
+import org.mertguler.cinemium.model.building.seat.Seat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +28,7 @@ public class Stage {
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
 
-    @OneToMany
-    @JoinTable(name = "stage_seats",
-            joinColumns = @JoinColumn(name = "stage_id"),
-            inverseJoinColumns = @JoinColumn(name = "seat_id"))
+    @ToString.Exclude
+    @OneToMany(mappedBy = "stage",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<>();
 }
