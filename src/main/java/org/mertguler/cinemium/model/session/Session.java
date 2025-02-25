@@ -5,12 +5,16 @@ import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.mertguler.cinemium.model.building.Stage;
+import org.mertguler.cinemium.model.building.seat.Seat;
 import org.mertguler.cinemium.model.movie.Movie;
 import org.mertguler.cinemium.validator.EnumValidator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -47,4 +51,10 @@ public class Session {
 
     private LocalDateTime endingDate;
 
+    @ToString.Exclude
+    @OneToMany( cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    @JoinTable(name = "sessions_seats",
+            joinColumns = @JoinColumn(name = "session_id"),
+            inverseJoinColumns = @JoinColumn(name = "seat_id"))
+    private List<Seat> seats = new ArrayList<>();
 }

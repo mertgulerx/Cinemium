@@ -13,5 +13,5 @@ public interface SeatService {
 
     SeatDTO deleteSeat(Long seatId);
 
-    SeatResponse makeSeatsCouple(Long firstSeatId, Long secondSeatId);
+    SeatResponse createCoupleSeats(Long stageId, SeatDTO firstSeatDTO, SeatDTO secondSeatDTO);
 }
