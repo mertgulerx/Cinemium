@@ -32,7 +32,7 @@ public class MovieController {
     @PostMapping("/public/movies")
     public ResponseEntity<MovieDTO> createMovie(@Valid @RequestBody MovieDTO movieDTO){
         MovieDTO savedMovieDTO = movieService.createMovie(movieDTO);
-        return new ResponseEntity<>(savedMovieDTO, HttpStatus.OK);
+        return new ResponseEntity<>(savedMovieDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/public/movies/{movieId}")
