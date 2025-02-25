@@ -20,7 +20,7 @@ public class MovieGenreServiceImpl implements MovieGenreService{
     @Override
     public MovieGenreDTO createMovieGenre(MovieGenreDTO movieGenreDTO) {
         MovieGenre movieGenre = modelMapper.map(movieGenreDTO, MovieGenre.class);
-        String genreName = movieGenre.getGenreName();
+        String genreName = movieGenre.getName();
 
         if(genreRepository.existsById(genreName)){
             throw new ResourceAlreadyExistException("Genre", "genreName", genreName);
