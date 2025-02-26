@@ -25,3 +25,10 @@ jobs:
       uses: sonarsource/sonarcloud-github-action@v4.0.0 # Ex: v4.0.0, See the latest version at https://github.com/marketplace/actions/sonarcloud-scan
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - name: Build and analyze
+      env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.organization=<your organization key> \
+          -Dsonar.projectKey=<your project key>
