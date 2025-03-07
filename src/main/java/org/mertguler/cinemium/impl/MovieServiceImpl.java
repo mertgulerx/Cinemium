@@ -1,15 +1,13 @@
-package org.mertguler.cinemium.service.movie;
+package org.mertguler.cinemium.impl;
 
-import org.mertguler.cinemium.exception.model.ResourceAlreadyExistException;
-import org.mertguler.cinemium.exception.model.ResourceNotFoundException;
-import org.mertguler.cinemium.model.building.Cinema;
+import org.mertguler.cinemium.exception.ResourceAlreadyExistException;
+import org.mertguler.cinemium.exception.ResourceNotFoundException;
 import org.mertguler.cinemium.model.movie.Movie;
-import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.dto.MovieDTO;
-import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.payload.response.MovieResponse;
 import org.mertguler.cinemium.repository.MovieRepository;
-import org.mertguler.cinemium.service.io.FileService;
+import org.mertguler.cinemium.service.FileService;
+import org.mertguler.cinemium.service.MovieService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class MovieServiceImpl implements MovieService{
+public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private MovieRepository movieRepository;

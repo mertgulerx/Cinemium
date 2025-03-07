@@ -1,4 +1,4 @@
-package org.mertguler.cinemium.service.io;
+package org.mertguler.cinemium.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

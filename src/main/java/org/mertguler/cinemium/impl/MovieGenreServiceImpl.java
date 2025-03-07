@@ -1,15 +1,16 @@
-package org.mertguler.cinemium.service.movie;
+package org.mertguler.cinemium.impl;
 
-import org.mertguler.cinemium.exception.model.ResourceAlreadyExistException;
+import org.mertguler.cinemium.exception.ResourceAlreadyExistException;
 import org.mertguler.cinemium.model.movie.MovieGenre;
 import org.mertguler.cinemium.payload.dto.MovieGenreDTO;
 import org.mertguler.cinemium.repository.GenreRepository;
+import org.mertguler.cinemium.service.MovieGenreService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MovieGenreServiceImpl implements MovieGenreService{
+public class MovieGenreServiceImpl implements MovieGenreService {
 
     @Autowired
     private ModelMapper modelMapper;

@@ -1,15 +1,14 @@
-package org.mertguler.cinemium.service.stage;
+package org.mertguler.cinemium.impl;
 
-import org.mertguler.cinemium.exception.model.ResourceAlreadyExistException;
-import org.mertguler.cinemium.exception.model.ResourceNotFoundException;
+import org.mertguler.cinemium.exception.ResourceAlreadyExistException;
+import org.mertguler.cinemium.exception.ResourceNotFoundException;
 import org.mertguler.cinemium.model.building.Cinema;
 import org.mertguler.cinemium.model.building.Stage;
-import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.dto.StageDTO;
-import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.payload.response.StageResponse;
 import org.mertguler.cinemium.repository.CinemaRepository;
 import org.mertguler.cinemium.repository.StageRepository;
+import org.mertguler.cinemium.service.StageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class StageServiceImpl implements StageService{
+public class StageServiceImpl implements StageService {
     @Autowired
     private StageRepository stageRepository;
 

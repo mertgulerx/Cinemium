@@ -1,17 +1,13 @@
 package org.mertguler.cinemium.payload.dto;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.building.seat.SeatStatus;
 import org.mertguler.cinemium.model.building.seat.SeatType;
-import org.mertguler.cinemium.validator.EnumValidator;
+import org.mertguler.cinemium.util.validator.EnumValidator;
 
 @Data
 @NoArgsConstructor

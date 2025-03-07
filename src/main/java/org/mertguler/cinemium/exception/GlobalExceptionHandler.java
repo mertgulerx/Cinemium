@@ -1,8 +1,5 @@
-package org.mertguler.cinemium.exception.handler;
+package org.mertguler.cinemium.exception;
 
-import org.mertguler.cinemium.exception.model.APIException;
-import org.mertguler.cinemium.exception.model.ResourceAlreadyExistException;
-import org.mertguler.cinemium.exception.model.ResourceNotFoundException;
 import org.mertguler.cinemium.payload.response.APIResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

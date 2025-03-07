@@ -1,13 +1,9 @@
 package org.mertguler.cinemium.controller;
 
 import jakarta.validation.Valid;
-import org.mertguler.cinemium.model.movie.Movie;
-import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.dto.MovieDTO;
-import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.payload.response.MovieResponse;
-import org.mertguler.cinemium.service.cinema.CinemaService;
-import org.mertguler.cinemium.service.movie.MovieService;
+import org.mertguler.cinemium.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

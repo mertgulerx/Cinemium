@@ -9,7 +9,7 @@ import lombok.ToString;
 import org.mertguler.cinemium.model.building.Stage;
 import org.mertguler.cinemium.model.building.seat.Seat;
 import org.mertguler.cinemium.model.movie.Movie;
-import org.mertguler.cinemium.validator.EnumValidator;
+import org.mertguler.cinemium.util.validator.EnumValidator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.building.seat.Seat;
 import org.mertguler.cinemium.model.session.Session;
-import org.mertguler.cinemium.validator.EnumValidator;
+import org.mertguler.cinemium.util.validator.EnumValidator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

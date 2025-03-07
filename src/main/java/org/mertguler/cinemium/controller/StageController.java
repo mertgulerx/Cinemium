@@ -3,7 +3,7 @@ package org.mertguler.cinemium.controller;
 import jakarta.validation.Valid;
 import org.mertguler.cinemium.payload.dto.StageDTO;
 import org.mertguler.cinemium.payload.response.StageResponse;
-import org.mertguler.cinemium.service.stage.StageService;
+import org.mertguler.cinemium.service.StageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

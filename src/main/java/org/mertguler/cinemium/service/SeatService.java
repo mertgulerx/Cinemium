@@ -1,4 +1,4 @@
-package org.mertguler.cinemium.service.seat;
+package org.mertguler.cinemium.service;
 
 import jakarta.validation.Valid;
 import org.mertguler.cinemium.payload.dto.SeatDTO;
