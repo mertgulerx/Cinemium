@@ -37,7 +37,7 @@ public class Movie {
 
     private String largePoster;
 
-    private String trailerLink;
+    private String trailer;
 
     private Float imdbScore;
 

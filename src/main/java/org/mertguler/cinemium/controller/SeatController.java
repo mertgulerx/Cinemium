@@ -38,6 +38,15 @@ public class SeatController {
         return new ResponseEntity<>(savedSeatDTO, HttpStatus.OK);
     }
 
+    @PostMapping("/public/cinemas/stages/{stageId}/seats/couple")
+    public ResponseEntity<SeatResponse> createCoupleSeats(@PathVariable Long stageId,
+                                                   @RequestBody SeatResponse seatList){
+        SeatDTO firstSeatDTO = seatList.getContent().get(0);
+        SeatDTO secondSeatDTO = seatList.getContent().get(1);
+        SeatResponse seatResponse = seatService.createCoupleSeats(stageId, firstSeatDTO, secondSeatDTO);
+        return new ResponseEntity<>(seatResponse, HttpStatus.OK);
+    }
+
     @DeleteMapping("/public/cinemas/stages/seats/{seatId}")
     public ResponseEntity<SeatDTO> deleteSeat(@PathVariable Long seatId){
         SeatDTO deletedSeatDTO = seatService.deleteSeat(seatId);
