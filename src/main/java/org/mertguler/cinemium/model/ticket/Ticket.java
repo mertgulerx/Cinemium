@@ -1,18 +1,12 @@
 package org.mertguler.cinemium.model.ticket;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.building.Seat;
 import org.mertguler.cinemium.model.session.Session;
-import org.mertguler.cinemium.util.validator.EnumValidator;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity

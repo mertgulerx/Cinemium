@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mertguler.cinemium.model.building.Seat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

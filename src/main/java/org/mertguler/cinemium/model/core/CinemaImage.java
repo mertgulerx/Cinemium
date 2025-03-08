@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.building.Cinema;
-import org.mertguler.cinemium.model.movie.Movie;
 
 import java.util.UUID;
 

@@ -1,8 +1,9 @@
 package org.mertguler.cinemium.model.building;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.core.CinemaImage;
 import org.mertguler.cinemium.model.core.City;
 

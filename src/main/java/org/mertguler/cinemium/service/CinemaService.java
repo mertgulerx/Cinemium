@@ -1,7 +1,6 @@
 package org.mertguler.cinemium.service;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
 

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.payload.dto.SeatDTO;
-import org.mertguler.cinemium.payload.dto.StageDTO;
 
 import java.util.List;
 

@@ -1,15 +1,12 @@
 package org.mertguler.cinemium.model.session;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.mertguler.cinemium.model.building.Stage;
 import org.mertguler.cinemium.model.building.Seat;
+import org.mertguler.cinemium.model.building.Stage;
 import org.mertguler.cinemium.model.movie.Movie;
-import org.mertguler.cinemium.util.validator.EnumValidator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

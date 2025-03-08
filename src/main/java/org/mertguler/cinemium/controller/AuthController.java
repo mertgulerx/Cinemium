@@ -1,6 +1,5 @@
 package org.mertguler.cinemium.controller;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.validation.Valid;
 import org.mertguler.cinemium.model.user.Role;
 import org.mertguler.cinemium.model.user.User;
