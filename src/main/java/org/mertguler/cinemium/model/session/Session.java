@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.mertguler.cinemium.model.building.Stage;
-import org.mertguler.cinemium.model.building.seat.Seat;
+import org.mertguler.cinemium.model.building.Seat;
 import org.mertguler.cinemium.model.movie.Movie;
 import org.mertguler.cinemium.util.validator.EnumValidator;
 

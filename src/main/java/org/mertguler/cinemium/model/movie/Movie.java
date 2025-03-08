@@ -11,6 +11,7 @@ import org.mertguler.cinemium.util.validator.EnumValidator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -19,23 +20,15 @@ import java.util.List;
 @Table(name = "movies")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long movieId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID movieId;
 
-    @NotBlank
     private String title;
 
+    @Column(columnDefinition = "TEXT", length = 512)
     private String summary;
 
-    /**
-     * Minute
-     */
-    @Min(0)
     private Integer length;
-
-    private String smallPoster;
-
-    private String largePoster;
 
     private String trailer;
 
@@ -43,8 +36,10 @@ public class Movie {
 
     private Float rtScore;
 
-    @EnumValidator(enumClass = ReleaseStatus.class)
     private String releaseStatus;
+
+    @OneToMany(mappedBy = "movie",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<MovieImage> images = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "movie_genres",

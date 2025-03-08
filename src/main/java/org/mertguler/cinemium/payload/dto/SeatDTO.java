@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mertguler.cinemium.model.building.seat.SeatStatus;
-import org.mertguler.cinemium.model.building.seat.SeatType;
+import org.mertguler.cinemium.model.building.SeatStatus;
+import org.mertguler.cinemium.model.building.SeatType;
 import org.mertguler.cinemium.util.validator.EnumValidator;
 
 @Data
@@ -23,7 +23,7 @@ public class SeatDTO {
     @Min(0)
     private Integer columnIndex;
 
-    //     "type": "must be any of enum class org.mertguler.cinemium.model.building.seat.SeatType"
+    //     "type": "must be any of enum class org.mertguler.cinemium.model.building.SeatType"
     @EnumValidator(enumClass = SeatType.class)
     private String type;
 
