@@ -3,7 +3,7 @@ package org.mertguler.cinemium.controller;
 import jakarta.validation.Valid;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
-import org.mertguler.cinemium.service.cinema.CinemaService;
+import org.mertguler.cinemium.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

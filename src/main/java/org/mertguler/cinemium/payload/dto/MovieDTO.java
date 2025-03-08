@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.movie.ReleaseStatus;
-import org.mertguler.cinemium.validator.EnumValidator;
+import org.mertguler.cinemium.util.validator.EnumValidator;
 
 @Data
 @NoArgsConstructor

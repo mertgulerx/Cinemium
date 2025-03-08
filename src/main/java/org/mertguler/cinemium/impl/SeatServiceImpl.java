@@ -1,28 +1,25 @@
-package org.mertguler.cinemium.service.seat;
+package org.mertguler.cinemium.impl;
 
-import org.mertguler.cinemium.exception.model.APIException;
-import org.mertguler.cinemium.exception.model.ResourceAlreadyExistException;
-import org.mertguler.cinemium.exception.model.ResourceNotFoundException;
-import org.mertguler.cinemium.model.building.Cinema;
+import org.mertguler.cinemium.exception.APIException;
+import org.mertguler.cinemium.exception.ResourceAlreadyExistException;
+import org.mertguler.cinemium.exception.ResourceNotFoundException;
+import org.mertguler.cinemium.mapper.CustomMapper;
 import org.mertguler.cinemium.model.building.Stage;
 import org.mertguler.cinemium.model.building.seat.Seat;
 import org.mertguler.cinemium.model.building.seat.SeatType;
 import org.mertguler.cinemium.payload.dto.SeatDTO;
-import org.mertguler.cinemium.payload.dto.StageDTO;
 import org.mertguler.cinemium.payload.response.SeatResponse;
-import org.mertguler.cinemium.payload.response.StageResponse;
 import org.mertguler.cinemium.repository.SeatRepository;
 import org.mertguler.cinemium.repository.StageRepository;
-import org.modelmapper.ModelMapper;
+import org.mertguler.cinemium.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SeatServiceImpl implements SeatService{
+public class SeatServiceImpl implements SeatService {
 
     @Autowired
     private SeatRepository seatRepository;
@@ -31,14 +28,16 @@ public class SeatServiceImpl implements SeatService{
     private StageRepository stageRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private CustomMapper mapper;
+
+
     @Override
     public SeatResponse getSeats(Long stageId) {
         List<Seat> seats = seatRepository.findAllByStageId(stageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
 
         List<SeatDTO> seatDTOs = seats.stream()
-                .map(seat -> modelMapper.map(seat, SeatDTO.class))
+                .map(seat -> mapper.toSeatDto(seat))
                 .toList();
 
         SeatResponse seatResponse = new SeatResponse();
@@ -51,7 +50,7 @@ public class SeatServiceImpl implements SeatService{
         Stage stage = stageRepository.findById(stageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
 
-        Seat seat = modelMapper.map(seatDTO, Seat.class);
+        Seat seat = mapper.toSeat(seatDTO);
 
         Integer rowIndex = seat.getRowIndex();
         Integer columnIndex = seat.getColumnIndex();
@@ -59,13 +58,12 @@ public class SeatServiceImpl implements SeatService{
 
         if (seatFromDb != null) {
             throw new ResourceAlreadyExistException("Seat", rowIndex, columnIndex);
-            // Daha iyi bir exception kullanilabilir
         }
 
         seat.setStage(stage);
 
         Seat savedSeat = seatRepository.save(seat);
-        return modelMapper.map(savedSeat, SeatDTO.class);
+        return mapper.toSeatDto(savedSeat);
     }
 
     @Override
@@ -73,11 +71,11 @@ public class SeatServiceImpl implements SeatService{
         Seat savedSeat = seatRepository.findById(seatId)
                 .orElseThrow(() -> new ResourceNotFoundException("Seat", "seatId", seatId));
 
-        Seat seat = modelMapper.map(seatDTO, Seat.class);
+        Seat seat = mapper.toSeat(seatDTO);
         seat.setSeatId(seatId);
         seat.setStage(savedSeat.getStage());
         savedSeat = seatRepository.save(seat);
-        return modelMapper.map(savedSeat, SeatDTO.class);
+        return mapper.toSeatDto(savedSeat);
     }
 
     @Override
@@ -86,7 +84,7 @@ public class SeatServiceImpl implements SeatService{
                 .orElseThrow(() -> new ResourceNotFoundException("Seat", "seatId", seatId));
 
         seatRepository.delete(seatFromDb);
-        return modelMapper.map(seatFromDb, SeatDTO.class);
+        return mapper.toSeatDto(seatFromDb);
     }
 
     @Override
@@ -94,8 +92,8 @@ public class SeatServiceImpl implements SeatService{
         Stage stage = stageRepository.findById(stageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
 
-        Seat firstSeat = modelMapper.map(firstSeatDTO, Seat.class);
-        Seat secondSeat = modelMapper.map(secondSeatDTO, Seat.class);
+        Seat firstSeat = mapper.toSeat(firstSeatDTO);
+        Seat secondSeat = mapper.toSeat(secondSeatDTO);
 
         if (!(firstSeat.getType().equals(SeatType.COUPLE.name())
                 || !(secondSeat.getType().equals(SeatType.COUPLE.name())))){
@@ -130,8 +128,8 @@ public class SeatServiceImpl implements SeatService{
         firstSeat.setStage(stage);
         secondSeat.setStage(stage);
 
-        SeatDTO savedFirstSeatDTO = modelMapper.map(seatRepository.save(firstSeat), SeatDTO.class);
-        SeatDTO savedSecondSeatDTO = modelMapper.map(seatRepository.save(secondSeat), SeatDTO.class);
+        SeatDTO savedFirstSeatDTO = mapper.toSeatDto(firstSeat);
+        SeatDTO savedSecondSeatDTO = mapper.toSeatDto(secondSeat);
 
         List<SeatDTO> seatDTOs = new ArrayList<>();
         return new SeatResponse(seatDTOs);
@@ -154,8 +152,8 @@ public class SeatServiceImpl implements SeatService{
         Seat savedFirstSeat = seatRepository.save(firstSeat);
         Seat savedSecondSeat = seatRepository.save(secondSeat);
 
-        SeatDTO savedFirstSeatDTO = modelMapper.map(savedFirstSeat, SeatDTO.class);
-        SeatDTO savedSecondSeatDTO = modelMapper.map(savedSecondSeat, SeatDTO.class);
+        SeatDTO savedFirstSeatDTO = mapper.toSeatDto(savedFirstSeat);
+        SeatDTO savedSecondSeatDTO = mapper.toSeatDto(savedSecondSeat);
         List<SeatDTO> seatDTOS = new ArrayList<>();
         seatDTOS.add(savedFirstSeatDTO);
         seatDTOS.add(savedSecondSeatDTO);

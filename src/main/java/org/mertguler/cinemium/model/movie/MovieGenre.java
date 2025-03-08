@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mertguler.cinemium.validator.EnumValidator;
+import org.mertguler.cinemium.util.validator.EnumValidator;
 
 @Entity
 @Data

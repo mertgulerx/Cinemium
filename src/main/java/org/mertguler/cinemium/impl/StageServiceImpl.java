@@ -1,28 +1,27 @@
-package org.mertguler.cinemium.service.stage;
+package org.mertguler.cinemium.impl;
 
-import org.mertguler.cinemium.exception.model.ResourceAlreadyExistException;
-import org.mertguler.cinemium.exception.model.ResourceNotFoundException;
+import org.mertguler.cinemium.exception.ResourceAlreadyExistException;
+import org.mertguler.cinemium.exception.ResourceNotFoundException;
+import org.mertguler.cinemium.mapper.CustomMapper;
 import org.mertguler.cinemium.model.building.Cinema;
 import org.mertguler.cinemium.model.building.Stage;
-import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.dto.StageDTO;
-import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.payload.response.StageResponse;
 import org.mertguler.cinemium.repository.CinemaRepository;
 import org.mertguler.cinemium.repository.StageRepository;
-import org.modelmapper.ModelMapper;
+import org.mertguler.cinemium.service.StageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class StageServiceImpl implements StageService{
+public class StageServiceImpl implements StageService {
     @Autowired
     private StageRepository stageRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private CustomMapper mapper;
 
     @Autowired
     private CinemaRepository cinemaRepository;
@@ -34,7 +33,7 @@ public class StageServiceImpl implements StageService{
 
 
         List<StageDTO> stageDTOS = stages.stream()
-                .map(stage -> modelMapper.map(stage, StageDTO.class))
+                .map(stage -> mapper.toStageDto(stage))
                 .toList();
 
         StageResponse stageResponse = new StageResponse();
@@ -44,7 +43,7 @@ public class StageServiceImpl implements StageService{
 
     @Override
     public StageDTO createStage(StageDTO stageDTO, Long cinemaId) {
-        Stage stage = modelMapper.map(stageDTO, Stage.class);
+        Stage stage = mapper.toStage(stageDTO);
         Cinema cinema = cinemaRepository.findById(cinemaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
 
@@ -58,7 +57,7 @@ public class StageServiceImpl implements StageService{
         stage.setCinema(cinema);
 
         Stage savedStage = stageRepository.save(stage);
-        return modelMapper.map(savedStage, StageDTO.class);
+        return mapper.toStageDto(savedStage);
     }
 
     @Override
@@ -66,11 +65,11 @@ public class StageServiceImpl implements StageService{
         Stage savedStage = stageRepository.findById(stageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
 
-        Stage stage = modelMapper.map(stageDTO, Stage.class);
+        Stage stage = mapper.toStage(stageDTO);
         stage.setStageId(stageId);
         stage.setCinema(savedStage.getCinema());
         savedStage = stageRepository.save(stage);
-        return modelMapper.map(savedStage, StageDTO.class);
+        return mapper.toStageDto(savedStage);
     }
 
     @Override
@@ -79,6 +78,6 @@ public class StageServiceImpl implements StageService{
                 .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
 
         stageRepository.delete(stageFromDb);
-        return modelMapper.map(stageFromDb, StageDTO.class);
+        return mapper.toStageDto(stageFromDb);
     }
 }

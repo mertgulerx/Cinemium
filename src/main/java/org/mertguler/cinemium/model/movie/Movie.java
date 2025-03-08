@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.session.Session;
-import org.mertguler.cinemium.validator.EnumValidator;
+import org.mertguler.cinemium.util.validator.EnumValidator;
 
 import java.util.ArrayList;
 import java.util.List;

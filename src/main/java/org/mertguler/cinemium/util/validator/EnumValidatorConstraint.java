@@ -1,4 +1,4 @@
-package org.mertguler.cinemium.validator;
+package org.mertguler.cinemium.util.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

@@ -1,4 +1,4 @@
-package org.mertguler.cinemium.exception.model;
+package org.mertguler.cinemium.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     String resourceName;
