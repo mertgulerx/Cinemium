@@ -3,7 +3,7 @@ package org.mertguler.cinemium.mapper;
 import org.mapstruct.Mapping;
 import org.mertguler.cinemium.model.building.Cinema;
 import org.mertguler.cinemium.model.building.Stage;
-import org.mertguler.cinemium.model.building.seat.Seat;
+import org.mertguler.cinemium.model.building.Seat;
 import org.mertguler.cinemium.model.movie.Movie;
 import org.mertguler.cinemium.model.movie.MovieGenre;
 import org.mertguler.cinemium.payload.dto.*;

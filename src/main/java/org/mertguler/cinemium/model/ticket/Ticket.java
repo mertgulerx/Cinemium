@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mertguler.cinemium.model.building.seat.Seat;
+import org.mertguler.cinemium.model.building.Seat;
 import org.mertguler.cinemium.model.session.Session;
 import org.mertguler.cinemium.util.validator.EnumValidator;
 

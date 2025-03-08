@@ -1,7 +1,6 @@
 package org.mertguler.cinemium.repository;
 
-import org.mertguler.cinemium.model.building.Stage;
-import org.mertguler.cinemium.model.building.seat.Seat;
+import org.mertguler.cinemium.model.building.Seat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
