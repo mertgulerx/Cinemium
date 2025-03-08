@@ -1,10 +1,9 @@
-package org.mertguler.cinemium.model.movie;
+package org.mertguler.cinemium.model.ticket;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mertguler.cinemium.util.validator.EnumValidator;
 
 import java.util.UUID;
 
@@ -12,10 +11,10 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Genre {
+@Table(name = "baskets")
+public class Basket {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID genreId;
+    private UUID basketId;
 
-    private String name;
 }

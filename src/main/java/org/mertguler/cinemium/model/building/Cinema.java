@@ -3,6 +3,8 @@ package org.mertguler.cinemium.model.building;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.mertguler.cinemium.model.core.CinemaImage;
+import org.mertguler.cinemium.model.core.City;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,22 @@ public class Cinema {
 
     private String code;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
-    private CinemaInfo cinemaInfo;
+    private String address;
 
-    @ToString.Exclude
+    private String summary;
+
+    private String poster;
+
+    @OneToOne
+    @JoinColumn(name = "city_id")
+    private City city;
+
     @OneToMany(mappedBy = "cinema",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<Stage> stages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cinema",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<CinemaImage> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cinema",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<CinemaTranslation> translations = new ArrayList<>();
 }

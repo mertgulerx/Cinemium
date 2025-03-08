@@ -11,23 +11,20 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "seats")
-public class Seat {
+@Table(name = "cinema_translations")
+public class CinemaTranslation {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID seatId;
+    @Column(name = "translation_id")
+    private UUID translationId;
 
-    private Integer rowIndex;
+    private String name;
 
-    private Integer columnIndex;
+    private String summary;
 
-    private Integer type;
-
-    private Integer status;
+    private String language;
 
     @ManyToOne
-    @JoinColumn(name = "stage_id")
-    private Stage stage;
-    
-    private UUID coupleId;
+    @JoinColumn(name = "cinema_id")
+    private Cinema cinema;
 }

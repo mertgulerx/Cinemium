@@ -1,4 +1,4 @@
-package org.mertguler.cinemium.model.movie;
+package org.mertguler.cinemium.model.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

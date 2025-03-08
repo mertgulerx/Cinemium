@@ -1,13 +1,10 @@
 package org.mertguler.cinemium.model.ticket;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.building.Seat;
-import org.mertguler.cinemium.model.session.Session;
-import org.mertguler.cinemium.util.validator.EnumValidator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,23 +16,19 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tickets")
-public class Ticket {
+@Table(name = "orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID ticketId;
+    private UUID orderId;
 
-    private String ticketStatus;
+    private BigDecimal totalPrice;
 
-    private String paymentStatus;
+    private LocalDateTime creationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "session_id")
-    private Session session;
+    @OneToMany
+    @JoinTable(name = "order_tickets", joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "ticket_id"))
+    private List<Ticket> tickets = new ArrayList<>();
 
-    @OneToOne
-    private Seat seat;
-
-    @ManyToOne
-    private Order order;
 }

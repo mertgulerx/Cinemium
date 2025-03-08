@@ -1,6 +1,8 @@
 package org.mertguler.cinemium.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import org.mertguler.cinemium.config.AppConstants;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.service.CinemaService;
@@ -16,9 +18,14 @@ public class CinemaController {
     @Autowired
     private CinemaService cinemaService;
 
-    @GetMapping("/public/cinemas")
-    public ResponseEntity<CinemaResponse> getAllCinemas(){
-        CinemaResponse cinemaResponse = cinemaService.getAllCinemas();
+    @GetMapping("/cinemas")
+    public ResponseEntity<CinemaResponse> getAllCinemas(@RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+                                                        @Max(50) @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+                                                        @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_CINEMAS_BY, required = false) String sortBy,
+                                                        @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_DIR, required = false) String sortOrder,
+                                                        @RequestParam(name = "city", required = false) String city,
+                                                        @RequestParam(name = "language", defaultValue = "en", required = false) String language){
+        CinemaResponse cinemaResponse = cinemaService.getAllCinemas(pageNumber, pageSize, sortBy, sortOrder, city, language);
         return new ResponseEntity<>(cinemaResponse, HttpStatus.OK);
     }
 

@@ -20,4 +20,6 @@ public class CinemaDTO {
     @NotBlank
     private String code;
 
+    private String poster;
+
 }

@@ -4,8 +4,8 @@ import org.mapstruct.Mapping;
 import org.mertguler.cinemium.model.building.Cinema;
 import org.mertguler.cinemium.model.building.Stage;
 import org.mertguler.cinemium.model.building.Seat;
+import org.mertguler.cinemium.model.movie.Genre;
 import org.mertguler.cinemium.model.movie.Movie;
-import org.mertguler.cinemium.model.movie.MovieGenre;
 import org.mertguler.cinemium.payload.dto.*;
 
 @org.mapstruct.Mapper(componentModel = "spring")
@@ -14,8 +14,8 @@ public interface CustomMapper {
     Cinema toCinema(CinemaDTO cinemaDTO);
     CinemaDTO toCinemaDto(Cinema cinema);
 
-    MovieGenre toGenre(MovieGenreDTO movieGenreDTO);
-    MovieGenreDTO toGenreDto(MovieGenre movieGenre);
+    Genre toGenre(MovieGenreDTO movieGenreDTO);
+    MovieGenreDTO toGenreDto(Genre genre);
 
     @Mapping(target = "sessions", ignore = true)
     @Mapping(target = "genres", ignore = true)
