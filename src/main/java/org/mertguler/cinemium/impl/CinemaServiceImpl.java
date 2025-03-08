@@ -2,12 +2,12 @@ package org.mertguler.cinemium.impl;
 
 import org.mertguler.cinemium.exception.ResourceAlreadyExistException;
 import org.mertguler.cinemium.exception.ResourceNotFoundException;
+import org.mertguler.cinemium.mapper.CustomMapper;
 import org.mertguler.cinemium.model.building.Cinema;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.repository.CinemaRepository;
 import org.mertguler.cinemium.service.CinemaService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +20,14 @@ public class CinemaServiceImpl implements CinemaService {
     private CinemaRepository cinemaRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private CustomMapper mapper;
 
     @Override
     public CinemaResponse getAllCinemas() {
         List<Cinema> cinemas = cinemaRepository.findAll();
 
         List<CinemaDTO> cinemaDTOS = cinemas.stream()
-                .map(cinema -> modelMapper.map(cinema, CinemaDTO.class))
+                .map(cinema -> mapper.toCinemaDto(cinema))
                 .toList();
 
         CinemaResponse cinemaResponse = new CinemaResponse();
@@ -37,7 +37,7 @@ public class CinemaServiceImpl implements CinemaService {
 
     @Override
     public CinemaDTO createCinema(CinemaDTO cinemaDTO){
-        Cinema cinema = modelMapper.map(cinemaDTO, Cinema.class);
+        Cinema cinema = mapper.toCinema(cinemaDTO);
         Long cinemaId = cinema.getCinemaId();
         Cinema cinemaFromDb = cinemaRepository.findCinemaByCinemaId(cinemaId);
 
@@ -46,7 +46,7 @@ public class CinemaServiceImpl implements CinemaService {
         }
 
         Cinema savedCinema = cinemaRepository.save(cinema);
-        return modelMapper.map(savedCinema, CinemaDTO.class);
+        return mapper.toCinemaDto(savedCinema);
     }
 
     @Override
@@ -54,10 +54,10 @@ public class CinemaServiceImpl implements CinemaService {
         Cinema savedCinema = cinemaRepository.findById(cinemaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
 
-        Cinema cinema = modelMapper.map(cinemaDTO, Cinema.class);
+        Cinema cinema = mapper.toCinema(cinemaDTO);
         cinema.setCinemaId(cinemaId);
         savedCinema = cinemaRepository.save(cinema);
-        return modelMapper.map(savedCinema, CinemaDTO.class);
+        return mapper.toCinemaDto(savedCinema);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CinemaServiceImpl implements CinemaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
 
         cinemaRepository.delete(cinemaFromDb);
-        return modelMapper.map(cinemaFromDb, CinemaDTO.class);
+        return mapper.toCinemaDto(cinemaFromDb);
     }
 
 

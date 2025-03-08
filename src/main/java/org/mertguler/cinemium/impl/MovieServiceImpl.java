@@ -2,13 +2,13 @@ package org.mertguler.cinemium.impl;
 
 import org.mertguler.cinemium.exception.ResourceAlreadyExistException;
 import org.mertguler.cinemium.exception.ResourceNotFoundException;
+import org.mertguler.cinemium.mapper.CustomMapper;
 import org.mertguler.cinemium.model.movie.Movie;
 import org.mertguler.cinemium.payload.dto.MovieDTO;
 import org.mertguler.cinemium.payload.response.MovieResponse;
 import org.mertguler.cinemium.repository.MovieRepository;
 import org.mertguler.cinemium.service.FileService;
 import org.mertguler.cinemium.service.MovieService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class MovieServiceImpl implements MovieService {
     private MovieRepository movieRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private CustomMapper mapper;
 
     @Autowired
     private FileService fileService;
@@ -37,7 +37,7 @@ public class MovieServiceImpl implements MovieService {
         List<Movie> movies = movieRepository.findAll();
 
         List<MovieDTO> movieDTOS = movies.stream()
-                .map(movie -> modelMapper.map(movie, MovieDTO.class))
+                .map(movie -> mapper.toMovieDto(movie))
                 .toList();
 
         MovieResponse movieResponse = new MovieResponse();
@@ -47,7 +47,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieDTO createMovie(MovieDTO movieDTO) {
-        Movie movie = modelMapper.map(movieDTO, Movie.class);
+        Movie movie = mapper.toMovie(movieDTO);
         Long movieId = movie.getMovieId();
         Movie movieFromDb = movieRepository.findMovieByMovieId(movieId);
 
@@ -56,7 +56,7 @@ public class MovieServiceImpl implements MovieService {
         }
 
         Movie savedMovie = movieRepository.save(movie);
-        return modelMapper.map(savedMovie, MovieDTO.class);
+        return mapper.toMovieDto(savedMovie);
     }
 
     @Override
@@ -64,10 +64,10 @@ public class MovieServiceImpl implements MovieService {
         Movie savedMovie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new ResourceNotFoundException("Movie", "movieId", movieId));
 
-        Movie movie = modelMapper.map(movieDTO, Movie.class);
+        Movie movie = mapper.toMovie(movieDTO);
         movie.setMovieId(movieId);
         savedMovie = movieRepository.save(movie);
-        return modelMapper.map(savedMovie, MovieDTO.class);
+        return mapper.toMovieDto(savedMovie);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class MovieServiceImpl implements MovieService {
                 .orElseThrow(() -> new ResourceNotFoundException("Movie", "movieId", movieId));
 
         movieRepository.delete(movieFromDb);
-        return modelMapper.map(movieFromDb, MovieDTO.class);
+        return mapper.toMovieDto(movieFromDb);
     }
 
     @Override
@@ -89,6 +89,6 @@ public class MovieServiceImpl implements MovieService {
         movieFromDb.setSmallPoster(fileName);
 
         Movie updatedMovie = movieRepository.save(movieFromDb);
-        return modelMapper.map(updatedMovie, MovieDTO.class);
+        return mapper.toMovieDto(updatedMovie);
     }
 }
