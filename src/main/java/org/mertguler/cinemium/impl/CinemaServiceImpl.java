@@ -5,6 +5,7 @@ import org.mertguler.cinemium.exception.ResourceNotFoundException;
 import org.mertguler.cinemium.mapper.CustomMapper;
 import org.mertguler.cinemium.model.building.Cinema;
 import org.mertguler.cinemium.model.building.CinemaTranslation;
+import org.mertguler.cinemium.model.core.CinemaImage;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.repository.CinemaImageRepository;
@@ -82,9 +83,20 @@ public class CinemaServiceImpl implements CinemaService {
             }
         }
 
-        cinemas.forEach(cinema -> cinema
-                .setPosterPath(
-                        cinemaImageRepository.findCinemaImageByCinemaCinemaIdAndImageType(cinema.getCinemaId(), 0, Limit.of(1)).getFilePath()));
+        for (Cinema cinema: cinemas){
+            CinemaImage posterImage = cinemaImageRepository.findCinemaImageByCinemaCinemaIdAndImageType(cinema.getCinemaId(), 0, Limit.of(1));
+            if (posterImage == null){
+                continue;
+            }
+
+            String posterPath = posterImage.getFilePath();
+
+            if (posterPath == null){
+                continue;
+            }
+
+            cinema.setPosterPath(posterPath);
+        }
 
         List<CinemaDTO> cinemaDTOS = cinemas.stream()
                 .map(cinema -> mapper.toCinemaDto(cinema))
