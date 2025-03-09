@@ -6,16 +6,22 @@ import org.mertguler.cinemium.mapper.CustomMapper;
 import org.mertguler.cinemium.model.building.Cinema;
 import org.mertguler.cinemium.model.building.CinemaTranslation;
 import org.mertguler.cinemium.model.core.CinemaImage;
+import org.mertguler.cinemium.model.movie.Movie;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
+import org.mertguler.cinemium.payload.dto.MovieDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.repository.CinemaImageRepository;
 import org.mertguler.cinemium.repository.CinemaRepository;
 import org.mertguler.cinemium.repository.CinemaTranslationRepository;
 import org.mertguler.cinemium.service.CinemaService;
+import org.mertguler.cinemium.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -30,6 +36,12 @@ public class CinemaServiceImpl implements CinemaService {
     private CinemaTranslationRepository cinemaTranslationRepository;
     @Autowired
     private CinemaImageRepository cinemaImageRepository;
+
+    @Autowired
+    private FileService fileService;
+
+    @Value("${project.image.cinema}")
+    private String imagesPath;
 
     @Override
     public CinemaResponse getAllCinemas(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder, String city, String language) {
@@ -159,5 +171,18 @@ public class CinemaServiceImpl implements CinemaService {
         return mapper.toCinemaDto(cinema);
     }
 
+
+    @Override
+    public CinemaDTO updateCinemaPoster(String cinemaId, MultipartFile image) throws IOException {
+        Cinema cinemaFromDb = cinemaRepository.findById(cinemaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
+
+        String fileName = fileService.uploadImage(imagesPath, image);
+
+        cinemaFromDb.setPosterPath(fileName);
+
+        Cinema updatedCinema = cinemaRepository.save(cinemaFromDb);
+        return mapper.toCinemaDto(updatedCinema);
+    }
 
 }

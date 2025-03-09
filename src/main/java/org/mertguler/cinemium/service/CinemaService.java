@@ -3,7 +3,9 @@ package org.mertguler.cinemium.service;
 import jakarta.validation.Valid;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public interface CinemaService {
@@ -16,4 +18,6 @@ public interface CinemaService {
     CinemaDTO deleteCinema(String cinemaId);
 
     CinemaDTO getCinema(String cinemaId);
+
+    CinemaDTO updateCinemaPoster(String cinemaId, MultipartFile image) throws IOException;
 }
