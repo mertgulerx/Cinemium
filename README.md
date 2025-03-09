@@ -1,1 +1,1 @@
-Cinema Ticket Selling Platform written in Spring (WIP)
+Cinema Ticket Selling Platform written in Spring (Work In Progress)
