@@ -1,8 +1,8 @@
 package org.mertguler.cinemium.controller;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import org.mertguler.cinemium.config.AppConstants;
+import org.mertguler.cinemium.payload.dto.AddressDTO;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.service.CinemaService;
@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
@@ -37,13 +40,13 @@ public class CinemaController {
     }
 
     @PostMapping("/cinemas")
-    public ResponseEntity<CinemaDTO> createCinema(@Valid @RequestBody CinemaDTO cinemaDTO){
+    public ResponseEntity<CinemaDTO> createCinema(@RequestBody CinemaDTO cinemaDTO){
         CinemaDTO savedCinemaDTO = cinemaService.createCinema(cinemaDTO);
         return new ResponseEntity<>(savedCinemaDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/cinemas/{cinemaId}")
-    public ResponseEntity<CinemaDTO> updateCinema(@Valid @RequestBody CinemaDTO cinemaDTO, @PathVariable String cinemaId){
+    public ResponseEntity<CinemaDTO> updateCinema(@RequestBody CinemaDTO cinemaDTO, @PathVariable String cinemaId){
         CinemaDTO savedCinemaDTO = cinemaService.updateCinema(cinemaDTO, cinemaId);
         return new ResponseEntity<>(savedCinemaDTO, HttpStatus.OK);
     }
@@ -54,5 +57,23 @@ public class CinemaController {
         return new ResponseEntity<>(deletedCinemaDTO, HttpStatus.OK);
     }
 
+    @PutMapping("/cinemas/{cinemaId}/poster")
+    public ResponseEntity<CinemaDTO> updateCinemaPoster(@PathVariable String cinemaId,
+                                                           @RequestParam("image") MultipartFile image) throws IOException {
+        CinemaDTO updatedCinema = cinemaService.updateCinemaPoster(cinemaId, image);
+        return new ResponseEntity<>(updatedCinema, HttpStatus.OK);
+    }
 
+    @PostMapping("/cinemas/{cinemaId}/address")
+    public ResponseEntity<AddressDTO> createAddress(@PathVariable String cinemaId,
+                                                 @RequestBody AddressDTO addressDTO){
+        AddressDTO savedAddressDTO = cinemaService.createAddress(cinemaId, addressDTO);
+        return new ResponseEntity<>(savedAddressDTO, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/cinemas/{cinemaId}/address")
+    public ResponseEntity<AddressDTO> deleteAddress(@PathVariable String cinemaId){
+        AddressDTO deletedAddressDTO = cinemaService.deleteAddress(cinemaId);
+        return new ResponseEntity<>(deletedAddressDTO, HttpStatus.OK);
+    }
 }

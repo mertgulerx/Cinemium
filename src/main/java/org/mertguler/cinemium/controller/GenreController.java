@@ -1,7 +1,6 @@
 package org.mertguler.cinemium.controller;
 
 import jakarta.validation.Valid;
-import org.mertguler.cinemium.model.movie.Genre;
 import org.mertguler.cinemium.payload.dto.GenreDTO;
 import org.mertguler.cinemium.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;

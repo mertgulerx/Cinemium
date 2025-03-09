@@ -4,14 +4,19 @@ import org.mapstruct.Mapping;
 import org.mertguler.cinemium.model.building.Cinema;
 import org.mertguler.cinemium.model.building.Seat;
 import org.mertguler.cinemium.model.building.Stage;
+import org.mertguler.cinemium.model.core.Address;
 import org.mertguler.cinemium.model.movie.Genre;
 import org.mertguler.cinemium.model.movie.Movie;
 import org.mertguler.cinemium.payload.dto.*;
 
 @org.mapstruct.Mapper(componentModel = "spring")
 public interface CustomMapper {
+    @Mapping(target = "addressInfo", ignore = true)
+    @Mapping(target = "translations", ignore = true)
+    @Mapping(target = "images", ignore = true)
     @Mapping(target = "stages", ignore = true)
     Cinema toCinema(CinemaDTO cinemaDTO);
+    @Mapping(target = "address", source = "addressInfo.address")
     CinemaDTO toCinemaDto(Cinema cinema);
 
     Genre toGenre(GenreDTO movieGenreDTO);
@@ -35,6 +40,11 @@ public interface CustomMapper {
     Stage toStage(StageDTO stageDTO);
     @Mapping(target = "cinemaId", ignore = true)
     StageDTO toStageDto(Stage stage);
+
+
+    @Mapping(target = "id", ignore = true)
+    Address toAddressModel(AddressDTO addressDTO);
+    AddressDTO toAddressDto(Address address);
 
 
 

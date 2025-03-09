@@ -7,14 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CinemaDTO {
-    private String cinemaId;
-
-    private String name;
-
+public class AddressDTO {
     private String address;
 
-    private String summary;
+    private String city;
 
-    private String posterPath;
+    private String Country;
 }
