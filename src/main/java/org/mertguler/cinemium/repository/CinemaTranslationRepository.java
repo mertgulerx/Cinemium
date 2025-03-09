@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface CinemaTranslationRepository extends JpaRepository<CinemaTranslation, UUID> {
-    CinemaTranslation findByCinemaCinemaIdAndLanguage(UUID cinemaId, String language);
+public interface CinemaTranslationRepository extends JpaRepository<CinemaTranslation, String> {
+    CinemaTranslation findByCinemaCinemaIdAndLanguage(String cinemaId, String language);
 }

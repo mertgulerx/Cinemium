@@ -9,16 +9,27 @@ import org.mertguler.cinemium.model.movie.Movie;
 
 import java.util.UUID;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "movie_images")
-public class MovieImage extends Image{
+public class MovieImage{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID imageId;
+
+    private String filePath;
+
+    private Integer imageType;
+
+    private Double aspectRatio;
+
+    private Integer height;
+
+    private Integer width;
+
+    private String iso6391;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")

@@ -14,9 +14,9 @@ import java.util.UUID;
 @Table(name = "cinema_translations")
 public class CinemaTranslation {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "translation_id")
-    private UUID translationId;
+    private Integer translationId;
 
     private String name;
 

@@ -14,5 +14,7 @@ public interface StageRepository extends JpaRepository<Stage, Long> {
     Optional<List<Stage>> findAllByCinemaId(Long cinemaId);
 
     @Query("SELECT stage FROM Stage stage WHERE stage.cinema.cinemaId = ?1 AND stage.name = ?2")
-    Stage findStageByCinemaIdAndName(Long cinemaId, String name);
+    Stage findStageByCinemaIdAndName(String cinemaId, String name);
+
+    Stage findByStageId(String stageId);
 }

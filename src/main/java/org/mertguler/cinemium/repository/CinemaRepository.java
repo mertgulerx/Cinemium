@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface CinemaRepository extends JpaRepository<Cinema, Long> {;
+public interface CinemaRepository extends JpaRepository<Cinema, String> {;
     Page<Cinema> findAllByCity(Pageable pageDetails, String city);
 
-    Cinema findCinemaByCinemaId(UUID cinemaId);
+    Cinema findCinemaByCinemaId(String cinemaId);
 }

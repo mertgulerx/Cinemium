@@ -14,8 +14,8 @@ public interface CustomMapper {
     Cinema toCinema(CinemaDTO cinemaDTO);
     CinemaDTO toCinemaDto(Cinema cinema);
 
-    Genre toGenre(MovieGenreDTO movieGenreDTO);
-    MovieGenreDTO toGenreDto(Genre genre);
+    Genre toGenre(GenreDTO movieGenreDTO);
+    GenreDTO toGenreDto(Genre genre);
 
     @Mapping(target = "sessions", ignore = true)
     @Mapping(target = "genres", ignore = true)

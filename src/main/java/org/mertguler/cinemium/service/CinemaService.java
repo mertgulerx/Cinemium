@@ -11,7 +11,9 @@ public interface CinemaService {
 
     CinemaDTO createCinema(@Valid CinemaDTO cinemaDTO);
 
-    CinemaDTO updateCinema(CinemaDTO cinemaDTO, UUID cinemaId);
+    CinemaDTO updateCinema(CinemaDTO cinemaDTO, String cinemaId);
 
-    CinemaDTO deleteCinema(Long cinemaId);
+    CinemaDTO deleteCinema(String cinemaId);
+
+    CinemaDTO getCinema(String cinemaId);
 }

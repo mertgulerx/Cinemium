@@ -9,7 +9,6 @@ import org.mertguler.cinemium.util.validator.EnumValidator;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieGenreDTO {
-    @EnumValidator(enumClass = Genre.class)
+public class GenreDTO {
     private String name;
 }

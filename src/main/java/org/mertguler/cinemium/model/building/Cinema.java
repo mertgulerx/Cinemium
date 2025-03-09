@@ -2,6 +2,7 @@ package org.mertguler.cinemium.model.building;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.core.CinemaImage;
@@ -15,25 +16,23 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "cinemas")
 public class Cinema {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "cinema_id")
-    private UUID cinemaId;
+    private String cinemaId;
 
     private String name;
-
-    private String code;
 
     private String address;
 
     private String summary;
 
-    private String poster;
+    private String posterPath;
 
     @OneToOne
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city_name")
     private City city;
 
     @OneToMany(mappedBy = "cinema",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)

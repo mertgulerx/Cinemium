@@ -29,20 +29,27 @@ public class CinemaController {
         return new ResponseEntity<>(cinemaResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/public/cinemas")
-    public ResponseEntity<CinemaDTO> createCinema(@Valid @RequestBody CinemaDTO cinemaDTO){
-        CinemaDTO savedCinemaDTO = cinemaService.createCinema(cinemaDTO);
-        return new ResponseEntity<>(savedCinemaDTO, HttpStatus.OK);
+
+    @GetMapping("/cinemas/{cinemaId}")
+    public ResponseEntity<CinemaDTO> getCinema(@PathVariable String cinemaId){
+        CinemaDTO cinemaDTO = cinemaService.getCinema(cinemaId);
+        return new ResponseEntity<>(cinemaDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/public/cinemas/{cinemaId}")
-    public ResponseEntity<CinemaDTO> updateCinema(@Valid @RequestBody CinemaDTO cinemaDTO, @PathVariable Long cinemaId){
+    @PostMapping("/cinemas")
+    public ResponseEntity<CinemaDTO> createCinema(@Valid @RequestBody CinemaDTO cinemaDTO){
+        CinemaDTO savedCinemaDTO = cinemaService.createCinema(cinemaDTO);
+        return new ResponseEntity<>(savedCinemaDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/cinemas/{cinemaId}")
+    public ResponseEntity<CinemaDTO> updateCinema(@Valid @RequestBody CinemaDTO cinemaDTO, @PathVariable String cinemaId){
         CinemaDTO savedCinemaDTO = cinemaService.updateCinema(cinemaDTO, cinemaId);
         return new ResponseEntity<>(savedCinemaDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/public/cinemas/{cinemaId}")
-    public ResponseEntity<CinemaDTO> deleteCinema(@PathVariable Long cinemaId){
+    @DeleteMapping("/cinemas/{cinemaId}")
+    public ResponseEntity<CinemaDTO> deleteCinema(@PathVariable String cinemaId){
         CinemaDTO deletedCinemaDTO = cinemaService.deleteCinema(cinemaId);
         return new ResponseEntity<>(deletedCinemaDTO, HttpStatus.OK);
     }

@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface CinemaImageRepository extends JpaRepository<CinemaImage, UUID> {
-    CinemaImage findCinemaImageByCinemaCinemaIdAndImageType(UUID cinemaId, int i, Limit of);
+    CinemaImage findCinemaImageByCinemaCinemaIdAndImageType(String cinemaId, int i, Limit of);
 }

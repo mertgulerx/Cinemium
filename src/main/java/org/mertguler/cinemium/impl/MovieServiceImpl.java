@@ -48,7 +48,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO createMovie(MovieDTO movieDTO) {
         Movie movie = mapper.toMovie(movieDTO);
-        Long movieId = movie.getMovieId();
+        String movieId = movie.getMovieId();
         Movie movieFromDb = movieRepository.findMovieByMovieId(movieId);
 
         if (movieFromDb != null) {
@@ -60,7 +60,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO updateMovie(MovieDTO movieDTO, Long movieId) {
+    public MovieDTO updateMovie(MovieDTO movieDTO, String movieId) {
         Movie savedMovie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new ResourceNotFoundException("Movie", "movieId", movieId));
 
@@ -71,7 +71,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO deleteMovie(Long movieId) {
+    public MovieDTO deleteMovie(String movieId) {
         Movie movieFromDb = movieRepository.findById(movieId)
                 .orElseThrow(() -> new ResourceNotFoundException("Movie", "movieId", movieId));
 
@@ -80,13 +80,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO updateMovieSmallPoster(Long movieId, MultipartFile image) throws IOException {
+    public MovieDTO updateMoviePoster(String movieId, MultipartFile image) throws IOException {
         Movie movieFromDb = movieRepository.findById(movieId)
                 .orElseThrow(() -> new ResourceNotFoundException("Movie", "movieId", movieId));
 
         String fileName = fileService.uploadImage(imagesPath, image);
 
-        movieFromDb.setSmallPoster(fileName);
+        movieFromDb.setPoster(fileName);
 
         Movie updatedMovie = movieRepository.save(movieFromDb);
         return mapper.toMovieDto(updatedMovie);

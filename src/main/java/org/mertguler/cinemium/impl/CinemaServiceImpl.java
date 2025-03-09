@@ -16,7 +16,6 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CinemaServiceImpl implements CinemaService {
@@ -84,7 +83,7 @@ public class CinemaServiceImpl implements CinemaService {
         }
 
         cinemas.forEach(cinema -> cinema
-                .setPoster(
+                .setPosterPath(
                         cinemaImageRepository.findCinemaImageByCinemaCinemaIdAndImageType(cinema.getCinemaId(), 0, Limit.of(1)).getFilePath()));
 
         List<CinemaDTO> cinemaDTOS = cinemas.stream()
@@ -104,11 +103,11 @@ public class CinemaServiceImpl implements CinemaService {
     @Override
     public CinemaDTO createCinema(CinemaDTO cinemaDTO){
         Cinema cinema = mapper.toCinema(cinemaDTO);
-        UUID cinemaId = cinema.getCinemaId();
+        String cinemaId = cinema.getCinemaId();
         Cinema cinemaFromDb = cinemaRepository.findCinemaByCinemaId(cinemaId);
 
         if (cinemaFromDb != null) {
-            throw new ResourceAlreadyExistException("Cinema", "cinemaId", String.valueOf(cinemaId));
+            throw new ResourceAlreadyExistException("Cinema", "cinemaId", cinemaId);
         }
 
         Cinema savedCinema = cinemaRepository.save(cinema);
@@ -116,7 +115,7 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
-    public CinemaDTO updateCinema(CinemaDTO cinemaDTO, UUID cinemaId) {
+    public CinemaDTO updateCinema(CinemaDTO cinemaDTO, String cinemaId) {
         Cinema savedCinema = cinemaRepository.findCinemaByCinemaId(cinemaId);
 
         if (savedCinema == null){
@@ -129,12 +128,23 @@ public class CinemaServiceImpl implements CinemaService {
     }
 
     @Override
-    public CinemaDTO deleteCinema(Long cinemaId) {
+    public CinemaDTO deleteCinema(String cinemaId) {
         Cinema cinemaFromDb = cinemaRepository.findById(cinemaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
 
         cinemaRepository.delete(cinemaFromDb);
         return mapper.toCinemaDto(cinemaFromDb);
+    }
+
+    @Override
+    public CinemaDTO getCinema(String cinemaId) {
+        Cinema cinema = cinemaRepository.findCinemaByCinemaId(cinemaId);
+
+        if (cinema == null){
+            throw new ResourceNotFoundException("Cinema", "cinemaId", cinemaId);
+        }
+
+        return mapper.toCinemaDto(cinema);
     }
 
 

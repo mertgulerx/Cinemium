@@ -7,9 +7,9 @@ import org.mertguler.cinemium.payload.response.StageResponse;
 public interface StageService {
     StageResponse getStages(Long cinemaId);
 
-    StageDTO createStage(@Valid StageDTO stageDTO, Long cinemaId);
+    StageDTO createStage(StageDTO stageDTO, String cinemaId);
 
-    StageDTO updateStage(@Valid StageDTO stageDTO, Long stageId);
+    StageDTO updateStage(StageDTO stageDTO, String stageId);
 
-    StageDTO deleteStage(Long stageId);
+    StageDTO deleteStage(String stageId);
 }

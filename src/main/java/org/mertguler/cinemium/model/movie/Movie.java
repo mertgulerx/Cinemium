@@ -18,8 +18,8 @@ import java.util.UUID;
 @Table(name = "movies")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID movieId;
+    @Column(name = "movie_id")
+    private String movieId;
 
     private String title;
 
@@ -29,6 +29,8 @@ public class Movie {
     private Integer length;
 
     private String trailer;
+
+    private String poster;
 
     private Float imdbScore;
 

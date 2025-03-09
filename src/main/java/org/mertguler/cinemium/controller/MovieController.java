@@ -32,21 +32,21 @@ public class MovieController {
     }
 
     @PutMapping("/public/movies/{movieId}")
-    public ResponseEntity<MovieDTO> updateMovie(@Valid @RequestBody MovieDTO movieDTO, @PathVariable Long movieId){
+    public ResponseEntity<MovieDTO> updateMovie(@Valid @RequestBody MovieDTO movieDTO, @PathVariable String movieId){
         MovieDTO savedMovieDTO = movieService.updateMovie(movieDTO, movieId);
         return new ResponseEntity<>(savedMovieDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/public/movies/{movieId}")
-    public ResponseEntity<MovieDTO> deleteMovie(@PathVariable Long movieId){
+    public ResponseEntity<MovieDTO> deleteMovie(@PathVariable String movieId){
         MovieDTO deletedMovieDTO = movieService.deleteMovie(movieId);
         return new ResponseEntity<>(deletedMovieDTO, HttpStatus.OK);
     }
 
     @PutMapping("/public/movies/{movieId}/image")
-    public ResponseEntity<MovieDTO> updateMovieSmallPoster(@PathVariable Long movieId,
+    public ResponseEntity<MovieDTO> updateMovieSmallPoster(@PathVariable String movieId,
                                                          @RequestParam("image") MultipartFile image) throws IOException {
-        MovieDTO updatedMovie = movieService.updateMovieSmallPoster(movieId, image);
+        MovieDTO updatedMovie = movieService.updateMoviePoster(movieId, image);
         return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
 }
