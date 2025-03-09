@@ -1,10 +1,9 @@
 package org.mertguler.cinemium.controller;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import org.mertguler.cinemium.config.AppConstants;
+import org.mertguler.cinemium.payload.dto.AddressDTO;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
-import org.mertguler.cinemium.payload.dto.MovieDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +64,16 @@ public class CinemaController {
         return new ResponseEntity<>(updatedCinema, HttpStatus.OK);
     }
 
+    @PostMapping("/cinemas/{cinemaId}/address")
+    public ResponseEntity<AddressDTO> createAddress(@PathVariable String cinemaId,
+                                                 @RequestBody AddressDTO addressDTO){
+        AddressDTO savedAddressDTO = cinemaService.createAddress(cinemaId, addressDTO);
+        return new ResponseEntity<>(savedAddressDTO, HttpStatus.CREATED);
+    }
 
+    @DeleteMapping("/cinemas/{cinemaId}/address")
+    public ResponseEntity<AddressDTO> deleteAddress(@PathVariable String cinemaId){
+        AddressDTO deletedAddressDTO = cinemaService.deleteAddress(cinemaId);
+        return new ResponseEntity<>(deletedAddressDTO, HttpStatus.OK);
+    }
 }

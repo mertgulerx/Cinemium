@@ -5,12 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.mertguler.cinemium.model.core.Address;
 import org.mertguler.cinemium.model.core.CinemaImage;
-import org.mertguler.cinemium.model.core.City;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Data
@@ -25,15 +24,13 @@ public class Cinema {
 
     private String name;
 
-    private String address;
-
     private String summary;
 
     private String posterPath;
 
     @OneToOne
-    @JoinColumn(name = "city_name")
-    private City city;
+    @JoinColumn(name = "address_id")
+    private Address addressInfo;
 
     @OneToMany(mappedBy = "cinema",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<Stage> stages = new ArrayList<>();

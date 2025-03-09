@@ -5,11 +5,12 @@ import org.mertguler.cinemium.exception.ResourceNotFoundException;
 import org.mertguler.cinemium.mapper.CustomMapper;
 import org.mertguler.cinemium.model.building.Cinema;
 import org.mertguler.cinemium.model.building.CinemaTranslation;
+import org.mertguler.cinemium.model.core.Address;
 import org.mertguler.cinemium.model.core.CinemaImage;
-import org.mertguler.cinemium.model.movie.Movie;
+import org.mertguler.cinemium.payload.dto.AddressDTO;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
-import org.mertguler.cinemium.payload.dto.MovieDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
+import org.mertguler.cinemium.repository.AddressRepository;
 import org.mertguler.cinemium.repository.CinemaImageRepository;
 import org.mertguler.cinemium.repository.CinemaRepository;
 import org.mertguler.cinemium.repository.CinemaTranslationRepository;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,6 +44,8 @@ public class CinemaServiceImpl implements CinemaService {
 
     @Value("${project.image.cinema}")
     private String imagesPath;
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Override
     public CinemaResponse getAllCinemas(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder, String city, String language) {
@@ -183,6 +187,44 @@ public class CinemaServiceImpl implements CinemaService {
 
         Cinema updatedCinema = cinemaRepository.save(cinemaFromDb);
         return mapper.toCinemaDto(updatedCinema);
+    }
+
+    @Override
+    public AddressDTO createAddress(String cinemaId, AddressDTO addressDTO) {
+        Cinema cinema = cinemaRepository.findById(cinemaId).
+                orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
+
+        Address oldAddress = cinema.getAddressInfo();
+
+        Address address = mapper.toAddressModel(addressDTO);
+        cinema.setAddressInfo(address);
+        addressRepository.save(address);
+        cinemaRepository.save(cinema);
+
+        if (oldAddress != null){
+            addressRepository.delete(oldAddress);
+        }
+
+        return addressDTO;
+    }
+
+    @Override
+    public AddressDTO deleteAddress(String cinemaId) {
+        Cinema cinema = cinemaRepository.findById(cinemaId).
+                orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
+
+        Address address = cinema.getAddressInfo();
+        cinema.setAddressInfo(null);
+
+        if (address != null){
+            addressRepository.delete(address);
+        } else {
+            throw new ResourceNotFoundException("Address", "cinemaId", cinemaId);
+        }
+
+        cinemaRepository.save(cinema);
+
+        return mapper.toAddressDto(address);
     }
 
 }
