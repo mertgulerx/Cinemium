@@ -1,6 +1,6 @@
 package org.mertguler.cinemium.model.ticket;
 
-public enum TicketStatus {
+public enum OrderStatus {
     ACTIVE,
     PENDING,
     EXPIRED,

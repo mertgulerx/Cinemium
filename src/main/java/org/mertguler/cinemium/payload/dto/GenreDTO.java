@@ -1,18 +1,14 @@
-package org.mertguler.cinemium.model.movie;
+package org.mertguler.cinemium.payload.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.mertguler.cinemium.model.movie.Genre;
 import org.mertguler.cinemium.util.validator.EnumValidator;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieGenre {
-    @Id
-    @EnumValidator(enumClass = Genre.class)
-    @Column(name = "genre_name")
+public class GenreDTO {
     private String name;
 }

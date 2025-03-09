@@ -1,8 +1,12 @@
 package org.mertguler.cinemium.model.building;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.mertguler.cinemium.model.core.CinemaImage;
+import org.mertguler.cinemium.model.core.City;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,21 +16,31 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "cinemas")
 public class Cinema {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "cinema_id")
-    private UUID cinemaId;
+    private String cinemaId;
 
     private String name;
 
-    private String code;
+    private String address;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
-    private CinemaInfo cinemaInfo;
+    private String summary;
 
-    @ToString.Exclude
+    private String posterPath;
+
+    @OneToOne
+    @JoinColumn(name = "city_name")
+    private City city;
+
     @OneToMany(mappedBy = "cinema",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<Stage> stages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cinema",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<CinemaImage> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cinema",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<CinemaTranslation> translations = new ArrayList<>();
 }

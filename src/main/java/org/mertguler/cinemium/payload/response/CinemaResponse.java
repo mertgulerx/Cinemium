@@ -12,4 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CinemaResponse {
     private List<CinemaDTO> content;
+    private Integer pageNumber;
+    private Integer pageSize;
+    private Long totalElements;
+    private Integer totalPages;
+    private boolean lastPage;
 }

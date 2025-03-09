@@ -4,14 +4,16 @@ import jakarta.validation.Valid;
 import org.mertguler.cinemium.payload.dto.SeatDTO;
 import org.mertguler.cinemium.payload.response.SeatResponse;
 
+import java.util.UUID;
+
 public interface SeatService {
-    SeatResponse getSeats(Long stageId);
+    SeatResponse getSeats(String stageId);
 
-    SeatDTO createSeat(@Valid SeatDTO seatDTO, Long stageId);
+    SeatDTO createSeat(@Valid SeatDTO seatDTO, String stageId);
 
-    SeatDTO updateSeat(@Valid SeatDTO seatDTO, Long seatId);
+    SeatDTO updateSeat(SeatDTO seatDTO, UUID seatId);
 
-    SeatDTO deleteSeat(Long seatId);
+    SeatDTO deleteSeat(UUID seatId);
 
-    SeatResponse createCoupleSeats(Long stageId, SeatDTO firstSeatDTO, SeatDTO secondSeatDTO);
+    SeatResponse createCoupleSeats(String stageId, SeatDTO firstSeatDTO, SeatDTO secondSeatDTO);
 }

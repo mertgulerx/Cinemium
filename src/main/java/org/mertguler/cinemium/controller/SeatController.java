@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api")
 public class SeatController {
@@ -16,27 +18,27 @@ public class SeatController {
     private SeatService seatService;
 
     @GetMapping("/public/cinemas/stages/{stageId}/seats")
-    public ResponseEntity<SeatResponse> getSeats(@PathVariable Long stageId){
+    public ResponseEntity<SeatResponse> getSeats(@PathVariable String stageId){
         SeatResponse seatResponse = seatService.getSeats(stageId);
         return new ResponseEntity<>(seatResponse, HttpStatus.OK);
     }
 
     @PostMapping("/public/cinemas/stages/{stageId}/seats")
     public ResponseEntity<SeatDTO> createSeat(@Valid @RequestBody SeatDTO seatDTO,
-                                               @PathVariable Long stageId){
+                                               @PathVariable String stageId){
         SeatDTO savedSeatDTO = seatService.createSeat(seatDTO, stageId);
         return new ResponseEntity<>(savedSeatDTO, HttpStatus.OK);
     }
 
     @PutMapping("/public/cinemas/stages/seats/{seatId}")
     public ResponseEntity<SeatDTO> updateSeat(@Valid @RequestBody SeatDTO seatDTO,
-                                                @PathVariable Long seatId){
+                                                @PathVariable UUID seatId){
         SeatDTO savedSeatDTO = seatService.updateSeat(seatDTO, seatId);
         return new ResponseEntity<>(savedSeatDTO, HttpStatus.OK);
     }
 
     @PostMapping("/public/cinemas/stages/{stageId}/seats/couple")
-    public ResponseEntity<SeatResponse> createCoupleSeats(@PathVariable Long stageId,
+    public ResponseEntity<SeatResponse> createCoupleSeats(@PathVariable String stageId,
                                                    @RequestBody SeatResponse seatList){
         SeatDTO firstSeatDTO = seatList.getContent().get(0);
         SeatDTO secondSeatDTO = seatList.getContent().get(1);
@@ -45,7 +47,7 @@ public class SeatController {
     }
 
     @DeleteMapping("/public/cinemas/stages/seats/{seatId}")
-    public ResponseEntity<SeatDTO> deleteSeat(@PathVariable Long seatId){
+    public ResponseEntity<SeatDTO> deleteSeat(@PathVariable UUID seatId){
         SeatDTO deletedSeatDTO = seatService.deleteSeat(seatId);
         return new ResponseEntity<>(deletedSeatDTO, HttpStatus.OK);
     }

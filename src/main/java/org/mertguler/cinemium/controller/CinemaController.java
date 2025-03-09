@@ -1,6 +1,8 @@
 package org.mertguler.cinemium.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import org.mertguler.cinemium.config.AppConstants;
 import org.mertguler.cinemium.payload.dto.CinemaDTO;
 import org.mertguler.cinemium.payload.response.CinemaResponse;
 import org.mertguler.cinemium.service.CinemaService;
@@ -16,26 +18,38 @@ public class CinemaController {
     @Autowired
     private CinemaService cinemaService;
 
-    @GetMapping("/public/cinemas")
-    public ResponseEntity<CinemaResponse> getAllCinemas(){
-        CinemaResponse cinemaResponse = cinemaService.getAllCinemas();
+    @GetMapping("/cinemas")
+    public ResponseEntity<CinemaResponse> getAllCinemas(@RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+                                                        @Max(50) @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+                                                        @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_CINEMAS_BY, required = false) String sortBy,
+                                                        @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_DIR, required = false) String sortOrder,
+                                                        @RequestParam(name = "city", required = false) String city,
+                                                        @RequestParam(name = "language", defaultValue = "en", required = false) String language){
+        CinemaResponse cinemaResponse = cinemaService.getAllCinemas(pageNumber, pageSize, sortBy, sortOrder, city, language);
         return new ResponseEntity<>(cinemaResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/public/cinemas")
-    public ResponseEntity<CinemaDTO> createCinema(@Valid @RequestBody CinemaDTO cinemaDTO){
-        CinemaDTO savedCinemaDTO = cinemaService.createCinema(cinemaDTO);
-        return new ResponseEntity<>(savedCinemaDTO, HttpStatus.OK);
+
+    @GetMapping("/cinemas/{cinemaId}")
+    public ResponseEntity<CinemaDTO> getCinema(@PathVariable String cinemaId){
+        CinemaDTO cinemaDTO = cinemaService.getCinema(cinemaId);
+        return new ResponseEntity<>(cinemaDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/public/cinemas/{cinemaId}")
-    public ResponseEntity<CinemaDTO> updateCinema(@Valid @RequestBody CinemaDTO cinemaDTO, @PathVariable Long cinemaId){
+    @PostMapping("/cinemas")
+    public ResponseEntity<CinemaDTO> createCinema(@Valid @RequestBody CinemaDTO cinemaDTO){
+        CinemaDTO savedCinemaDTO = cinemaService.createCinema(cinemaDTO);
+        return new ResponseEntity<>(savedCinemaDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/cinemas/{cinemaId}")
+    public ResponseEntity<CinemaDTO> updateCinema(@Valid @RequestBody CinemaDTO cinemaDTO, @PathVariable String cinemaId){
         CinemaDTO savedCinemaDTO = cinemaService.updateCinema(cinemaDTO, cinemaId);
         return new ResponseEntity<>(savedCinemaDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/public/cinemas/{cinemaId}")
-    public ResponseEntity<CinemaDTO> deleteCinema(@PathVariable Long cinemaId){
+    @DeleteMapping("/cinemas/{cinemaId}")
+    public ResponseEntity<CinemaDTO> deleteCinema(@PathVariable String cinemaId){
         CinemaDTO deletedCinemaDTO = cinemaService.deleteCinema(cinemaId);
         return new ResponseEntity<>(deletedCinemaDTO, HttpStatus.OK);
     }

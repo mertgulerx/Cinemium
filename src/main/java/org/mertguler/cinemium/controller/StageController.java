@@ -23,20 +23,20 @@ public class StageController {
 
     @PostMapping("/public/cinemas/{cinemaId}/stages")
     public ResponseEntity<StageDTO> createStage(@Valid @RequestBody StageDTO stageDTO,
-                                                @PathVariable Long cinemaId){
+                                                @PathVariable String cinemaId){
         StageDTO savedStageDTO = stageService.createStage(stageDTO, cinemaId);
         return new ResponseEntity<>(savedStageDTO, HttpStatus.OK);
     }
 
     @PutMapping("/public/cinemas/stages/{stageId}")
     public ResponseEntity<StageDTO> updateStage(@Valid @RequestBody StageDTO stageDTO,
-                                                @PathVariable Long stageId){
+                                                @PathVariable String stageId){
         StageDTO savedStageDTO = stageService.updateStage(stageDTO, stageId);
         return new ResponseEntity<>(savedStageDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/public/cinemas/stages/{stageId}")
-    public ResponseEntity<StageDTO> deleteStage(@PathVariable Long stageId){
+    public ResponseEntity<StageDTO> deleteStage(@PathVariable String stageId){
         StageDTO deletedStageDTO = stageService.deleteStage(stageId);
         return new ResponseEntity<>(deletedStageDTO, HttpStatus.OK);
     }

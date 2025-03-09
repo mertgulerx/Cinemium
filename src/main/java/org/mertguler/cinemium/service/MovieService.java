@@ -12,9 +12,9 @@ public interface MovieService {
 
     MovieDTO createMovie(@Valid MovieDTO movieDTO);
 
-    MovieDTO updateMovie(@Valid MovieDTO movieDTO, Long movieId);
+    MovieDTO updateMovie(MovieDTO movieDTO, String movieId);
 
-    MovieDTO deleteMovie(Long movieId);
+    MovieDTO deleteMovie(String movieId);
 
-    MovieDTO updateMovieSmallPoster(Long movieId, MultipartFile image) throws IOException;
+    MovieDTO updateMoviePoster(String movieId, MultipartFile image) throws IOException;
 }

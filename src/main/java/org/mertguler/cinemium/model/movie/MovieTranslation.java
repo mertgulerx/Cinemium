@@ -11,27 +11,20 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "movie_images")
-public class MovieImage {
+@Table(name = "movie_translations")
+public class MovieTranslation {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID imageId;
+    private UUID translationId;
 
-    private String filePath;
+    private String title;
 
-    private Integer imageType;
+    @Column(columnDefinition = "TEXT", length = 512)
+    private String summary;
 
-    private Double aspectRatio;
-
-    private Integer height;
-
-    private Integer width;
-
-    private String iso6391;
+    private String language;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
-
-
 }

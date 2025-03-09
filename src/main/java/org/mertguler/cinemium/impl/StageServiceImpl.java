@@ -42,7 +42,7 @@ public class StageServiceImpl implements StageService {
     }
 
     @Override
-    public StageDTO createStage(StageDTO stageDTO, Long cinemaId) {
+    public StageDTO createStage(StageDTO stageDTO, String cinemaId) {
         Stage stage = mapper.toStage(stageDTO);
         Cinema cinema = cinemaRepository.findById(cinemaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cinema", "cinemaId", cinemaId));
@@ -61,10 +61,12 @@ public class StageServiceImpl implements StageService {
     }
 
     @Override
-    public StageDTO updateStage(StageDTO stageDTO, Long stageId) {
-        Stage savedStage = stageRepository.findById(stageId)
-                .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
+    public StageDTO updateStage(StageDTO stageDTO, String stageId) {
+        Stage savedStage = stageRepository.findByStageId(stageId);
 
+        if (savedStage == null){
+            throw new ResourceNotFoundException("Stage", "stageId", stageId);
+        }
         Stage stage = mapper.toStage(stageDTO);
         stage.setStageId(stageId);
         stage.setCinema(savedStage.getCinema());
@@ -73,9 +75,12 @@ public class StageServiceImpl implements StageService {
     }
 
     @Override
-    public StageDTO deleteStage(Long stageId) {
-        Stage stageFromDb = stageRepository.findById(stageId)
-                .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
+    public StageDTO deleteStage(String stageId) {
+        Stage stageFromDb = stageRepository.findByStageId(stageId);
+
+        if (stageFromDb == null){
+            throw new ResourceNotFoundException("Stage", "stageId", stageId);
+        }
 
         stageRepository.delete(stageFromDb);
         return mapper.toStageDto(stageFromDb);

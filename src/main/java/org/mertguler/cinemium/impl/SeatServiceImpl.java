@@ -4,9 +4,9 @@ import org.mertguler.cinemium.exception.APIException;
 import org.mertguler.cinemium.exception.ResourceAlreadyExistException;
 import org.mertguler.cinemium.exception.ResourceNotFoundException;
 import org.mertguler.cinemium.mapper.CustomMapper;
-import org.mertguler.cinemium.model.building.Stage;
 import org.mertguler.cinemium.model.building.Seat;
 import org.mertguler.cinemium.model.building.SeatType;
+import org.mertguler.cinemium.model.building.Stage;
 import org.mertguler.cinemium.payload.dto.SeatDTO;
 import org.mertguler.cinemium.payload.response.SeatResponse;
 import org.mertguler.cinemium.repository.SeatRepository;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SeatServiceImpl implements SeatService {
@@ -32,7 +33,7 @@ public class SeatServiceImpl implements SeatService {
 
 
     @Override
-    public SeatResponse getSeats(Long stageId) {
+    public SeatResponse getSeats(String stageId) {
         List<Seat> seats = seatRepository.findAllByStageId(stageId)
                 .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
 
@@ -46,9 +47,12 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public SeatDTO createSeat(SeatDTO seatDTO, Long stageId) {
-        Stage stage = stageRepository.findById(stageId)
-                .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
+    public SeatDTO createSeat(SeatDTO seatDTO, String stageId) {
+        Stage stage = stageRepository.findByStageId(stageId);
+
+        if (stage == null){
+            throw new ResourceNotFoundException("Stage", "stageId", stageId);
+        }
 
         Seat seat = mapper.toSeat(seatDTO);
 
@@ -67,9 +71,12 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public SeatDTO updateSeat(SeatDTO seatDTO, Long seatId) {
-        Seat savedSeat = seatRepository.findById(seatId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seat", "seatId", seatId));
+    public SeatDTO updateSeat(SeatDTO seatDTO, UUID seatId) {
+        Seat savedSeat = seatRepository.findBySeatId(seatId);
+
+        if (savedSeat == null){
+            throw new ResourceNotFoundException("Seat", "seatId", seatId);
+        }
 
         Seat seat = mapper.toSeat(seatDTO);
         seat.setSeatId(seatId);
@@ -79,18 +86,24 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public SeatDTO deleteSeat(Long seatId) {
-        Seat seatFromDb = seatRepository.findById(seatId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seat", "seatId", seatId));
+    public SeatDTO deleteSeat(UUID seatId) {
+        Seat seatFromDb = seatRepository.findBySeatId(seatId);
+
+        if (seatFromDb == null){
+            throw new ResourceNotFoundException("Seat", "seatId", seatId);
+        }
 
         seatRepository.delete(seatFromDb);
         return mapper.toSeatDto(seatFromDb);
     }
 
     @Override
-    public SeatResponse createCoupleSeats(Long stageId, SeatDTO firstSeatDTO, SeatDTO secondSeatDTO) {
-        Stage stage = stageRepository.findById(stageId)
-                .orElseThrow(() -> new ResourceNotFoundException("Stage", "stageId", stageId));
+    public SeatResponse createCoupleSeats(String stageId, SeatDTO firstSeatDTO, SeatDTO secondSeatDTO) {
+        Stage stage = stageRepository.findByStageId(stageId);
+
+        if (stage == null){
+            throw new ResourceNotFoundException("Stage", "stageId", stageId);
+        }
 
         Seat firstSeat = mapper.toSeat(firstSeatDTO);
         Seat secondSeat = mapper.toSeat(secondSeatDTO);
@@ -123,8 +136,6 @@ public class SeatServiceImpl implements SeatService {
             // Daha iyi bir exception kullanilabilir
         }
 
-
-
         firstSeat.setStage(stage);
         secondSeat.setStage(stage);
 
@@ -135,31 +146,5 @@ public class SeatServiceImpl implements SeatService {
         return new SeatResponse(seatDTOs);
 
     }
-
-    //@Override
-    public SeatResponse makeSeatsCouple(Long firstSeatId, Long secondSeatId) {
-        Seat firstSeat = seatRepository.findById(firstSeatId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seat", "seatId", firstSeatId));
-
-        Seat secondSeat = seatRepository.findById(secondSeatId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seat", "seatId", secondSeatId));
-
-        firstSeat.setCoupleId(secondSeatId);
-        firstSeat.setType("COUPLE");
-        secondSeat.setCoupleId(firstSeatId);
-        secondSeat.setType("COUPLE");
-
-        Seat savedFirstSeat = seatRepository.save(firstSeat);
-        Seat savedSecondSeat = seatRepository.save(secondSeat);
-
-        SeatDTO savedFirstSeatDTO = mapper.toSeatDto(savedFirstSeat);
-        SeatDTO savedSecondSeatDTO = mapper.toSeatDto(savedSecondSeat);
-        List<SeatDTO> seatDTOS = new ArrayList<>();
-        seatDTOS.add(savedFirstSeatDTO);
-        seatDTOS.add(savedSecondSeatDTO);
-
-        return new SeatResponse(seatDTOS);
-    }
-
 
 }

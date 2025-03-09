@@ -8,21 +8,18 @@ import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.movie.ReleaseStatus;
 import org.mertguler.cinemium.util.validator.EnumValidator;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class MovieDTO {
-    private Long movieId;
+    private String movieId;
 
-    @NotBlank
     private String title;
 
     private String summary;
 
-    /**
-     * Minute
-     */
-    @Min(0)
     private Integer length;
 
     private String smallPoster;
@@ -35,6 +32,5 @@ public class MovieDTO {
 
     private Float rtScore;
 
-    @EnumValidator(enumClass = ReleaseStatus.class)
     private String releaseStatus;
 }

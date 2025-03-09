@@ -9,11 +9,13 @@ import org.mertguler.cinemium.model.building.SeatStatus;
 import org.mertguler.cinemium.model.building.SeatType;
 import org.mertguler.cinemium.util.validator.EnumValidator;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SeatDTO {
-    private Long seatId;
+    private UUID seatId;
 
     @NotNull
     @Min(0)

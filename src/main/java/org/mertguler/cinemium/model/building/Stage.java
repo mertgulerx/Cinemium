@@ -17,8 +17,7 @@ import java.util.UUID;
 @Table(name = "stages")
 public class Stage {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID stageId;
+    private String stageId;
 
     private String name;
 

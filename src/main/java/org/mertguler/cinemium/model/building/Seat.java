@@ -29,5 +29,5 @@ public class Seat {
     @JoinColumn(name = "stage_id")
     private Stage stage;
     
-    private Long coupleId;
+    private UUID coupleId;
 }

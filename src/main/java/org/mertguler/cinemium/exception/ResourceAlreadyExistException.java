@@ -4,7 +4,7 @@ public class ResourceAlreadyExistException extends RuntimeException {
   String resourceName;
   String field;
   String fieldName;
-  Long fieldId;
+  Number fieldId;
 
   Integer rowIndex;
   Integer columnIndex;
@@ -19,7 +19,7 @@ public class ResourceAlreadyExistException extends RuntimeException {
     this.fieldName = fieldName;
   }
 
-  public ResourceAlreadyExistException(String resourceName, String field, Long fieldId) {
+  public ResourceAlreadyExistException(String resourceName, String field, Number fieldId) {
     super(String.format("%s already exist with  %s: %d", resourceName, field, fieldId));
     this.resourceName = resourceName;
     this.field = field;

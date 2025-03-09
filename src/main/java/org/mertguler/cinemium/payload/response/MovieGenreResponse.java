@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mertguler.cinemium.model.movie.Genre;
-import org.mertguler.cinemium.payload.dto.MovieGenreDTO;
 
 import java.util.List;
 
@@ -12,5 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MovieGenreResponse {
-    List<MovieGenreDTO> content;
+    List<Genre> content;
 }

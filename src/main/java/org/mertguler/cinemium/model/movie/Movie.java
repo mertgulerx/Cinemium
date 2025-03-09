@@ -1,13 +1,11 @@
 package org.mertguler.cinemium.model.movie;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.mertguler.cinemium.model.core.MovieImage;
 import org.mertguler.cinemium.model.session.Session;
-import org.mertguler.cinemium.util.validator.EnumValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +18,8 @@ import java.util.UUID;
 @Table(name = "movies")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID movieId;
+    @Column(name = "movie_id")
+    private String movieId;
 
     private String title;
 
@@ -31,6 +29,8 @@ public class Movie {
     private Integer length;
 
     private String trailer;
+
+    private String poster;
 
     private Float imdbScore;
 
@@ -45,8 +45,11 @@ public class Movie {
     @JoinTable(name = "movie_genres",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_name"))
-    private List<MovieGenre> genres = new ArrayList<>();
+    private List<Genre> genres = new ArrayList<>();
 
     @OneToMany(mappedBy = "movie",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<Session> sessions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "movie",  cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<MovieTranslation> translations = new ArrayList<>();
 }
